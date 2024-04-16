@@ -1,19 +1,11 @@
 import Image from "next/image";
-import styles from "./page.module.css";
+import styles from "./page.module.css"; // Importe o componente de login aqui
+import LoginPage from "./components/LoginPage";
 
 export default function Home() {
   return (
     <main className={styles.main}>
-      <div>
-        <h1>Sistema de login</h1>
-        <div>
-          <form>
-            <input type="text" name="username" placeholder="Nome de usuário" required></input>
-            <input type="password" name="password" placeholder="Senha" required></input>
-            <input type="submit" value="Entrar"></input>
-          </form>
-        </div>  
-      </div>
+      <LoginPage/>
     </main>
   );
 }
