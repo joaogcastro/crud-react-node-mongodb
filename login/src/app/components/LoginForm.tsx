@@ -1,36 +1,39 @@
-"use client"
+
+"use client";
+
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 const correct_username = 'teste123';
-const correct_password = 'altair';
+const correct_password = '123';
 
 const LoginForm = () => {
+  const router = useRouter();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [usernameError, setUsernameError] = useState('');
 
   const handleSubmit = (e) => {
-    let auth=0;
     e.preventDefault();
-    
-    if(username !== correct_username){
-        setUsernameError('Usuário inexistente. Tente novamente.');
-    }else{
-        setUsernameError('');
-        auth+=1;
+    let auth = 0;
+
+    if (username !== correct_username) {
+      setUsernameError('Usuário inexistente. Tente novamente.');
+    } else {
+      setUsernameError('');
+      auth += 1;
     }
 
     if (password !== correct_password) {
       setPasswordError('Senha incorreta. Tente novamente.');
     } else {
       setPasswordError('');
-      auth+=1;
+      auth += 1;
     }
 
-    if(auth===2){
-        alert("Login realizado com sucesso");
-        // Redirecionamento para a próxima página
+    if (auth === 2) {
+      router.push('/MenuEstoque');
     }
   };
 
@@ -43,9 +46,9 @@ const LoginForm = () => {
           id="username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
-          style={{ borderColor: usernameError ? 'red' : '' }} // Altera a cor da borda se houver erro
+          style={{ borderColor: usernameError ? 'red' : '' }}
         />
-        {usernameError && <p style={{ color: 'red' }}>{usernameError}</p>} {/* Exibe mensagem de erro, se houver */}
+        {usernameError && <p style={{ color: 'red' }}>{usernameError}</p>}
       </div>
       <div>
         <label htmlFor="password">Senha:</label>
@@ -54,9 +57,9 @@ const LoginForm = () => {
           id="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          style={{ borderColor: passwordError ? 'red' : '' }} // Altera a cor da borda se houver erro
+          style={{ borderColor: passwordError ? 'red' : '' }}
         />
-        {passwordError && <p style={{ color: 'red' }}>{passwordError}</p>} {/* Exibe mensagem de erro, se houver */}
+        {passwordError && <p style={{ color: 'red' }}>{passwordError}</p>}
       </div>
       <button type="submit">Entrar</button>
     </form>
