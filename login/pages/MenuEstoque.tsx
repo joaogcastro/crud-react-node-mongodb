@@ -1,13 +1,12 @@
-
 "use client";
-
 import React from 'react';
+import StockMenu from '@/app/components/StockMenu';
 
 const MenuEstoque = () => {
   return (
     <div>
       <h1>Menu do Estoque</h1>
-      <p>Bem-vindo ao sistema de estoque!</p>
+      <StockMenu/>
     </div>
   );
 };
