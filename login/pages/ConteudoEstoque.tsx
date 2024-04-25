@@ -1,5 +1,7 @@
 "use client";
 import ProductTable from '../src/app/components/ProductTable';
+import BackButton from '@/app/components/BackButton';
+import '@/app/ConteudoEstoque.css';
 import React, { useState } from 'react';
 
 const products = [
@@ -60,6 +62,9 @@ const products = [
             <button id="btnBusca" onClick={() => setSearchTerm('')}>
               Limpar
             </button>
+          </div>
+          <div className="back-button-container">
+          <BackButton />
           </div>
           <ProductTable products={filteredProducts} />
         </div>

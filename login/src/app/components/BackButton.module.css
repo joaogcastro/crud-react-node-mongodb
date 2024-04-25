@@ -1,0 +1,14 @@
+.back-button {
+    font-size: 16px; /* Tamanho do texto */
+    padding: 10px 20px; /* Espaçamento interno (topo/baixo, esquerda/direita) */
+    border: none;
+    background-color: #007bff; /* Cor de fundo */
+    color: white; /* Cor do texto */
+    cursor: pointer;
+    border-radius: 5px; /* Borda arredondada */
+  }
+  
+  .back-button:hover {
+    background-color: #0056b3; /* Cor de fundo ao passar o mouse */
+  }
+  
