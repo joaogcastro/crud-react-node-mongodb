@@ -50,7 +50,6 @@ const products = [
         <div>
           <h1>Produtos no estoque</h1>
           <div id="divBusca">
-            <img src="search3.png" alt="Buscar..." />
             <input
               type="text"
               id="txtBusca"

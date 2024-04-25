@@ -1,0 +1,24 @@
+.menu-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 25vh; /* Isso faz com que o container ocupe toda a altura da viewport */
+  }
+  
+  .menu-container h1 {
+    margin-bottom: 20px; /* Adiciona algum espaço abaixo do título */
+  }
+
+  .stock-menu-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center; /* Alinha o texto (incluindo o botão) ao centro */
+    margin-top: 15px; /* Adiciona espaço acima do conteúdo */
+  }
+  
+  .stock-menu-container button {
+    margin-top: 10px; /* Adiciona espaço acima do botão */
+  }
