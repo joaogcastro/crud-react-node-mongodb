@@ -5,7 +5,7 @@ import StockMenu from '@/app/components/StockMenu';
 const MenuEstoque = () => {
   return (
     <div>
-      <h1>Menu do Estoque</h1>
+      <h1> Menu do Estoque </h1>
       <StockMenu/>
     </div>
   );

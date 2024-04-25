@@ -1,11 +1,11 @@
 "use client";
 import ProductTable from '../src/app/components/ProductTable';
-import React from 'react';
+import React, { useState } from 'react';
 
 const products = [
-  { id: 1, name: 'Tenis Nice UltraFast', size: 41, quantity: 5 },
-  { id: 2, name: 'Tenis Nice UltraFast', size: 40, quantity: 3 },
-  { id: 3, name: 'Tenis Nice UltraFast', size: 42, quantity: 2 },
+  { id: 1, name: 'Tênis Nice UltraFast', size: 41, quantity: 5 },
+  { id: 2, name: 'Tênis Nice UltraFast', size: 40, quantity: 3 },
+  { id: 3, name: 'Tênis Nice UltraFast', size: 42, quantity: 2 },
   { id: 4, name: 'Tênis Casual Comfort', size: 40, quantity: 8 },
   { id: 5, name: 'Tênis Casual Comfort', size: 39, quantity: 6 },
   { id: 6, name: 'Tênis Casual Comfort', size: 41, quantity: 4 },
@@ -35,13 +35,36 @@ const products = [
   { id: 30, name: 'Bota Cano Curto Elegance', size: 40, quantity: 3 }
 ];
 
-const ConteudoEstoque = () => {
-  return (
-    <div>
-      <h1>Produtos no estoque</h1>
-      <ProductTable products={products} />
-    </div>
-  );
-};
+     const ConteudoEstoque = () => {
+      const [searchTerm, setSearchTerm] = useState<string>('');
+    
+      const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setSearchTerm(event.target.value);
+      };
+    
+      const filteredProducts = products.filter(product =>
+        product.name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    
+      return (
+        <div>
+          <h1>Produtos no estoque</h1>
+          <div id="divBusca">
+            <img src="search3.png" alt="Buscar..." />
+            <input
+              type="text"
+              id="txtBusca"
+              placeholder="Buscar..."
+              value={searchTerm}
+              onChange={handleSearchChange}
+            />
+            <button id="btnBusca" onClick={() => setSearchTerm('')}>
+              Limpar
+            </button>
+          </div>
+          <ProductTable products={filteredProducts} />
+        </div>
+      );
+    };
 
 export default ConteudoEstoque;
