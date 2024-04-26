@@ -17,7 +17,7 @@
   }
   
   .menu-container h1 {
-    margin-bottom: 20px; /* Adiciona algum espaço abaixo do título */
+    margin-bottom: 10px; /* Adiciona algum espaço abaixo do título */
   }
 
   .stock-menu-container {
@@ -30,5 +30,5 @@
   }
   
   .stock-menu-container button {
-    margin-top: 10px; /* Adiciona espaço acima do botão */
+    margin-top: 15px; /* Adiciona espaço acima do botão */
   }
