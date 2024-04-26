@@ -7,11 +7,11 @@ import BackButton from '@/app/components/BackButton';
 const MenuEstoque = () => {
   return (
     <div className="menu-container">
-      <h1>Menu do Estoque</h1>
-      <StockMenu />
       <div className="back-button-container">
         <BackButton />
       </div>
+      <h1>Menu do Estoque</h1>
+      <StockMenu />
     </div>
   );
 };
