@@ -14,7 +14,7 @@ const StockMenu: React.FC = () => {
     <div className="stock-menu-container">
       <h2>Menu Estoque</h2>
       <button onClick={() => handleClick('/ConteudoEstoque')}>Ver Conteúdo do Estoque</button>
-      <button onClick={() => handleClick('/AdicionarProdutos')}>Adicionar mais produtos ao estoque</button>
+      <button onClick={() => handleClick('/EmployeeTable')}>Ver lista de funcionários</button>
     </div>
   );
 };

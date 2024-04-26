@@ -48,7 +48,7 @@ const products = [
 ];
 
 const ConteudoEstoque: React.FC = () => {
-  const { searchTerm, setSearchTerm } = useSearchStore(); // Usa o store de pesquisa
+  const { searchTerm, setSearchTerm } = useSearchStore();
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
