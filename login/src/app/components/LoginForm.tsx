@@ -10,31 +10,18 @@ const LoginForm = () => {
   const router = useRouter();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [passwordError, setPasswordError] = useState('');
-  const [usernameError, setUsernameError] = useState('');
+  const [error, setError] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    let auth = 0;
-
-    if (username !== correct_username) {
-      setUsernameError('Usuário inexistente. Tente novamente.');
-    } else {
-      setUsernameError('');
-      auth += 1;
-    }
-
-    if (password !== correct_password) {
-      setPasswordError('Senha incorreta. Tente novamente.');
-    } else {
-      setPasswordError('');
-      auth += 1;
-    }
-
-    if (auth === 2) {
+  
+    if (username === correct_username && password === correct_password) {
+      setError('');
       router.push('/MenuEstoque');
+    } else {
+      setError('Usuário ou senha incorretos. Tente novamente.');
     }
-  };
+  };  
 
   return (
     <form onSubmit={handleSubmit}>
@@ -45,9 +32,8 @@ const LoginForm = () => {
           id="username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
-          style={{ borderColor: usernameError ? 'red' : '' }}
+          style={{ borderColor: error ? 'red' : '' }}
         />
-        {usernameError && <p style={{ color: 'red' }}>{usernameError}</p>}
       </div>
       <div>
         <label htmlFor="password">Senha:</label>
@@ -56,9 +42,9 @@ const LoginForm = () => {
           id="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          style={{ borderColor: passwordError ? 'red' : '' }}
+          style={{ borderColor: error ? 'red' : '' }}
         />
-        {passwordError && <p style={{ color: 'red' }}>{passwordError}</p>}
+        {error && <p style={{ color: 'red' }}>{error}</p>}
       </div>
       <button type="submit">Entrar</button>
     </form>

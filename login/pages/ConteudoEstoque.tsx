@@ -1,8 +1,18 @@
-"use client";
+import React from 'react';
 import ProductTable from '../src/app/components/ProductTable';
 import BackButton from '@/app/components/BackButton';
 import '@/app/ConteudoEstoque.css';
-import React, { useState } from 'react';
+import { useState } from 'react';
+import create from 'zustand';
+
+interface SearchState {
+  searchTerm: string;
+  setSearchTerm: (searchTerm: string) => void;
+}
+const useSearchStore = create ((set): SearchState => ({
+  searchTerm: '',
+  setSearchTerm: (searchTerm) => set({ searchTerm }),
+}));
 
 const products = [
   { id: 1, name: 'Tênis Nice UltraFast', size: 41, quantity: 5 },
@@ -37,38 +47,39 @@ const products = [
   { id: 30, name: 'Bota Cano Curto Elegance', size: 40, quantity: 3 }
 ];
 
-     const ConteudoEstoque = () => {
-      const [searchTerm, setSearchTerm] = useState<string>('');
-    
-      const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setSearchTerm(event.target.value);
-      };
-    
-      const filteredProducts = products.filter(product =>
-        product.name.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-    
-      return (
-        <div>
-          <h1>Produtos no estoque</h1>
-          <div id="divBusca">
-            <input
-              type="text"
-              id="txtBusca"
-              placeholder="Buscar..."
-              value={searchTerm}
-              onChange={handleSearchChange}
-            />
-            <button id="btnBusca" onClick={() => setSearchTerm('')}>
-              Limpar
-            </button>
-          </div>
-          <div className="back-button-container">
-          <BackButton />
-          </div>
-          <ProductTable products={filteredProducts} />
-        </div>
-      );
-    };
+const ConteudoEstoque: React.FC = () => {
+  const { searchTerm, setSearchTerm } = useSearchStore(); // Usa o store de pesquisa
+
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const filteredProducts = products.filter((product) =>
+    product.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  return (
+    <div>
+      <div className="back-button-container">
+        <BackButton />
+      </div>
+      <h1>Produtos no estoque</h1>
+      <div id="divBusca">
+        <input
+          type="text"
+          id="txtBusca"
+          placeholder="Buscar..."
+          value={searchTerm}
+          onChange={handleSearchChange}
+        />
+        <button id="btnBusca" onClick={() => setSearchTerm('')}>
+          Limpar
+        </button>
+      </div>
+
+      <ProductTable products={filteredProducts} />
+    </div>
+  );
+};
 
 export default ConteudoEstoque;
