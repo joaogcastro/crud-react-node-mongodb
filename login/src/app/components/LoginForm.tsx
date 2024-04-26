@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import '@/app/components/Login.css';
 
 const correct_username = 'teste123';
 const correct_password = '123';

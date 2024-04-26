@@ -1,0 +1,17 @@
+*{margin: 0;
+    padding: 0;
+    box-sizing: border-box;}
+
+body{background-image:url(../components/images/1ad76db8a479ca1470282f7986b2ad6b.jpg);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    max-width: 100vw;
+    background-position: top;
+    background-repeat: no-repeat;
+    background-size:cover;}
+
+input{height: 30px;
+    border-radius: 10px;
+}
