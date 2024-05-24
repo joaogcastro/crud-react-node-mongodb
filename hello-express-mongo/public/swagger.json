@@ -34,7 +34,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "string"
+									"$ref": "#/components/schemas/JsonObject"
 								}
 							}
 						}
@@ -48,12 +48,25 @@
 						"application/json": {
 							"schema": {
 								"properties": {
-									"name": {
+									"quantityProduct": {
+										"type": "number",
+										"format": "double"
+									},
+									"typeProduct": {
+										"type": "string"
+									},
+									"nameProduct": {
+										"type": "string"
+									},
+									"toppingId": {
 										"type": "string"
 									}
 								},
 								"required": [
-									"name"
+									"quantityProduct",
+									"typeProduct",
+									"nameProduct",
+									"toppingId"
 								],
 								"type": "object"
 							}
@@ -64,7 +77,7 @@
 		},
 		"/api/icecream/getAll": {
 			"get": {
-				"operationId": "All",
+				"operationId": "GetAll",
 				"responses": {
 					"200": {
 						"description": "Ok",
@@ -81,7 +94,7 @@
 				"parameters": []
 			}
 		},
-		"/api/icecream/update": {
+		"/api/icecream/update/{id}": {
 			"patch": {
 				"operationId": "Update",
 				"responses": {
@@ -97,24 +110,33 @@
 					}
 				},
 				"security": [],
-				"parameters": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
 				"requestBody": {
 					"required": true,
 					"content": {
 						"application/json": {
 							"schema": {
 								"properties": {
-									"name": {
+									"quantityProduct": {
+										"type": "number",
+										"format": "double"
+									},
+									"typeProduct": {
 										"type": "string"
 									},
-									"id": {
+									"nameProduct": {
 										"type": "string"
 									}
 								},
-								"required": [
-									"name",
-									"id"
-								],
 								"type": "object"
 							}
 						}
@@ -148,63 +170,6 @@
 						}
 					}
 				]
-			}
-		},
-		"/api/icecream/getToppings": {
-			"get": {
-				"operationId": "AllToppings",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/JsonObject"
-								}
-							}
-						}
-					}
-				},
-				"security": [],
-				"parameters": []
-			}
-		},
-		"/api/icecream/fields": {
-			"get": {
-				"operationId": "Fields",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/JsonObject"
-								}
-							}
-						}
-					}
-				},
-				"security": [],
-				"parameters": []
-			}
-		},
-		"/api/icecream/query": {
-			"get": {
-				"operationId": "Query",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/JsonObject"
-								}
-							}
-						}
-					}
-				},
-				"security": [],
-				"parameters": []
 			}
 		}
 	},

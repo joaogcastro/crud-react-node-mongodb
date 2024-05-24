@@ -1,7 +1,7 @@
 import express, { Express, Request, Response } from "express"
 import dotenv from "dotenv"
 
-import icecreamRoutes from "./routes/icecreamRoutes"
+import icecreamRoutes from "./routes/ProductRoutes"
 
 import swaggerUi from "swagger-ui-express"
 import { connect } from "./service/database"
