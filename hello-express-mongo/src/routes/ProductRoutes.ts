@@ -2,10 +2,10 @@ import express, { Request, Response } from "express";
 import ProductController from "../controllers/ProductController";
 import { ProductModel } from "../models/ProductModel";
 
-const router = express.Router();
+const productRoutes = express.Router();
 const controller = new ProductController();
 
-router.post("/create", async (req: Request<any, any, { toppingId: string; nameProduct: string; typeProduct: string; quantityProduct: number }>, res: Response) => {
+productRoutes.post("/create", async (req: Request<any, any, { nameProduct: string; typeProduct: string; quantityProduct: number }>, res: Response) => {
   try {
     const response = await controller.create(req.body);
     return res.status(200).json(response);
@@ -18,7 +18,7 @@ router.post("/create", async (req: Request<any, any, { toppingId: string; namePr
   }
 });
 
-router.get("/getAll", async (req: Request, res: Response) => {
+productRoutes.get("/getAll", async (req: Request, res: Response) => {
   try {
     const response = await controller.getAll();
     return res.status(200).json(response);
@@ -31,7 +31,7 @@ router.get("/getAll", async (req: Request, res: Response) => {
   }
 });
 
-router.patch("/update/:id", async (req: Request<{ id: string }, any, { nameProduct?: string; typeProduct?: string; quantityProduct?: number }>, res: Response) => {
+productRoutes.patch("/update/:id", async (req: Request<{ id: string }, any, { nameProduct?: string; typeProduct?: string; quantityProduct?: number }>, res: Response) => {
   try {
     const id: string = req.params.id;
     const { nameProduct, typeProduct, quantityProduct } = req.body;
@@ -67,7 +67,7 @@ router.patch("/update/:id", async (req: Request<{ id: string }, any, { nameProdu
   }
 });
 
-router.delete("/delete/:id", async (req: Request<{ id: string }>, res: Response) => {
+productRoutes.delete("/delete/:id", async (req: Request<{ id: string }>, res: Response) => {
   try {
     const id: string = req.params.id;
     const response = await controller.delete(id);
@@ -81,4 +81,4 @@ router.delete("/delete/:id", async (req: Request<{ id: string }>, res: Response)
   }
 });
 
-export default router;
+export { productRoutes };

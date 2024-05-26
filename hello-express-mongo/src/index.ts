@@ -1,38 +1,35 @@
 import express, { Express, Request, Response } from "express"
-import dotenv from "dotenv"
-
-import icecreamRoutes from "./routes/ProductRoutes"
-
 import swaggerUi from "swagger-ui-express"
 import { connect } from "./service/database"
+import dotenv from "dotenv"
+import { productRoutes } from "./routes/ProductRoutes"
 
-dotenv.config()
-
+dotenv.config();
 const app: Express = express()
-
-const port = process.env.PORT
-const databaseUrl = process.env.DATABASE_URL || ""
+const port = process.env.PORT ? parseInt(process.env.PORT) : 4000;
+const hostname = process.env.HOSTNAME || 'localhost';
+const databaseUrl = process.env.DATABASE_URL || "";
 
 connect(databaseUrl)
 
-app.use(express.json())
-app.use(express.static("public"))
+app.use(express.json());
+app.use(express.static("public"));
 app.use(
-  "/swagger", // endereço de onde o swagger responde
+  "/swagger",
   swaggerUi.serve,
   swaggerUi.setup(undefined, {
     swaggerOptions: {
       url: "/swagger.json",
     },
   })
-)
+);
 
-app.use("/api/icecream", icecreamRoutes)
+app.use("/product", productRoutes)
 
 app.get("/", (req: Request, res: Response) => {
   res.send("Express + TypeScript Server")
-})
+});
 
-app.listen(port, () => {
-  console.log(`Server Started at ${port}`)
-})
+app.listen(port, hostname, () => {
+  console.log(`Server Started at ${hostname}:${port}`)
+});

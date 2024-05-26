@@ -1,13 +1,12 @@
 import { Body, Get, Patch, Delete, Post, Route } from "tsoa";
-import { ProductModel } from "../models/ProductModel"; // Alterei para ProductModel
+import { ProductModel } from "../models/ProductModel";
 import { JsonObject } from "swagger-ui-express";
 
-@Route("api/icecream")
 export default class ProductController {
   @Post("/create")
-  public async create(@Body() body: { toppingId: string; nameProduct: string; typeProduct: string; quantityProduct: number }): Promise<JsonObject> {
+  public async create(@Body() body: { nameProduct: string; typeProduct: string; quantityProduct: number }): Promise<JsonObject> {
     try {
-      const data = new ProductModel(body); // Alterei para ProductModel
+      const data = new ProductModel(body);
       await data.save();
       return { message: "Product created successfully", product: data };
     } catch (error: any) {
