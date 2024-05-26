@@ -67,9 +67,11 @@ productRoutes.patch("/update/:id", async (req: Request<{ id: string }, any, { na
   }
 });
 
-productRoutes.delete("/delete/:id", async (req: Request<{ id: string }>, res: Response) => {
+
+
+productRoutes.delete("/delete", async (req: Request, res: Response) => {
   try {
-    const id: string = req.params.id;
+    const id: string = req.body.id; // Extrai o ID do corpo da solicitação
     const response = await controller.delete(id);
     return res.status(200).json(response);
   } catch (error) {
