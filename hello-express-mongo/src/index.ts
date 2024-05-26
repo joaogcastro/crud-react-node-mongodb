@@ -2,6 +2,7 @@ import express, { Express, Request, Response } from "express"
 import swaggerUi from "swagger-ui-express"
 import { connect } from "./service/database"
 import dotenv from "dotenv"
+import { userRoutes } from "./routes/UserRoutes"
 import { productRoutes } from "./routes/ProductRoutes"
 
 dotenv.config();
@@ -24,6 +25,7 @@ app.use(
   })
 );
 
+app.use("/user", userRoutes);
 app.use("/product", productRoutes)
 
 app.get("/", (req: Request, res: Response) => {
