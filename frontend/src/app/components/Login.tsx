@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import styles from './page.module.css';
 
 interface Props {
@@ -17,11 +18,19 @@ const Login: React.FC<Props> = () => {
     setPhone(event.target.value);
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // Aqui você pode adicionar a lógica para enviar as credenciais do usuário para o backend
-    console.log('Email:', email);
-    console.log('Phone:', phone);
+    try {
+      const response = await axios.post('http://seu-backend-endereco.com/api/login', {
+        email,
+        phone
+      });
+      console.log('Response:', response.data);
+      // Você pode adicionar lógica adicional para lidar com a resposta do backend aqui
+    } catch (error) {
+      console.error('Error:', error);
+      // Adicione lógica para lidar com erros aqui
+    }
   };
 
   return (
