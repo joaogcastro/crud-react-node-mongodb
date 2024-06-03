@@ -1,6 +1,7 @@
+"use client"
 import React, { useState } from 'react';
 import axios from 'axios';
-import styles from './page.module.css';
+import styles from '../components/Login';
 
 interface Props {
   // Defina propriedades opcionais aqui, se necessário
