@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import styles from './Login';
+import './Login.css';
 
 interface Props {
 
@@ -34,8 +34,8 @@ const Login: React.FC<Props> = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className={styles.form}>
-      <div className={styles.formGroup}>
+    <form onSubmit={handleSubmit}>
+      <div>
         <label htmlFor="username">username:</label>
         <input
           type="username"
@@ -43,10 +43,9 @@ const Login: React.FC<Props> = () => {
           value={username}
           onChange={handleusernameChange}
           required
-          className={styles.input}
         />
       </div>
-      <div className={styles.formGroup}>
+      <div>
         <label htmlFor="password">password:</label>
         <input
           type="password"
@@ -54,10 +53,9 @@ const Login: React.FC<Props> = () => {
           value={password}
           onChange={handlepasswordChange}
           required
-          className={styles.input}
         />
       </div>
-      <button type="submit" className={styles.button}>Login</button>
+      <button type="submit">Login</button>
     </form>
   );
 }
