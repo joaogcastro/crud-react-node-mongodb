@@ -4,6 +4,7 @@ import { connect } from "./service/database"
 import dotenv from "dotenv"
 import { userRoutes } from "./routes/UserRoutes"
 import { productRoutes } from "./routes/ProductRoutes"
+import cors from "cors";
 
 dotenv.config();
 const app: Express = express()
@@ -13,17 +14,15 @@ const databaseUrl = process.env.DATABASE_URL || "";
 
 connect(databaseUrl)
 
+const allowedOrigins = ['http://localhost:3000', '127.0.0.1:3000'];
+
+const options: cors.CorsOptions = {
+  origin: allowedOrigins
+};
+
+app.use(cors(options));
 app.use(express.json());
 app.use(express.static("public"));
-app.use(
-  "/swagger",
-  swaggerUi.serve,
-  swaggerUi.setup(undefined, {
-    swaggerOptions: {
-      url: "/swagger.json",
-    },
-  })
-);
 
 app.use("/user", userRoutes);
 app.use("/product", productRoutes)

@@ -7,6 +7,9 @@ export default class UserController {
     public async authenticate(body: { username: string; password: string; email: string }): Promise<boolean> {
         try {
             const userToBeAuth = new UserModel(body);
+            if(!userToBeAuth.username) {
+                return false;
+            }
             const userFinded = await UserModel.findOne({ username: userToBeAuth.username });
 
             if (userToBeAuth.password === userFinded?.password) {

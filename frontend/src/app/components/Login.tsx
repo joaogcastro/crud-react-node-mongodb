@@ -1,90 +1,65 @@
-"use client"
 import React, { useState } from 'react';
 import axios from 'axios';
-import styles from '../components/Login';
+import styles from './Login';
 
-interface FormProps {
-  email: string;
-  phone: string;
+interface Props {
+
 }
 
-const FormComponent: React.FC = () => {
-  const [formData, setFormData] = useState<FormProps>({ email: '', phone: '' });
+const Login: React.FC<Props> = () => {
+  const [username, setusername] = useState('');
+  const [password, setpassword] = useState('');
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [name]: value,
-    }));
+  const handleusernameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setusername(event.target.value);
+  };
+
+  const handlepasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setpassword(event.target.value);
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
-      const response = await axios.post('http://seu-backend-endereco.com/api/login', {
-        email: formData.email,
-        phone: formData.phone
+      const response = await axios.post('http://127.0.0.2:4000/user/auth', {
+        username,
+        password
       });
       console.log('Response:', response.data);
-      // Você pode adicionar lógica adicional para lidar com a resposta do backend aqui
-    } catch (error: any) {
-      if (axios.isAxiosError(error)) {
-        // Erros relacionados ao Axios
-        if (error.response) {
-          // Erro de resposta do servidor
-          console.error('Error response:', error.response);
-          switch (error.response.status) {
-            case 400:
-              alert('Requisição inválida. Verifique os dados enviados.');
-              break;
-            case 401:
-              alert('Não autorizado. Verifique suas credenciais.');
-              break;
-            case 500:
-              alert('Erro interno do servidor. Tente novamente mais tarde.');
-              break;
-            default:
-              alert('Ocorreu um erro. Tente novamente.');
-          }
-        } else if (error.request) {
-          // Sem resposta do servidor
-          console.error('No response received:', error.request);
-          alert('Sem resposta do servidor. Verifique sua conexão com a internet.');
-        } else {
-          // Outros erros relacionados ao Axios
-          console.error('Axios error:', error.message);
-          alert('Ocorreu um erro ao fazer a requisição. Tente novamente.');
-        }
-      } else {
-        // Erros não relacionados ao Axios
-        console.error('Error:', error);
-        alert('Ocorreu um erro inesperado. Tente novamente.');
-      }
+      
+    } catch (error) {
+      console.error('Error:', error);
+      
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input
-        type="email"
-        name="email"
-        value={formData.email}
-        onChange={handleChange}
-        placeholder="Email"
-        required
-      />
-      <input
-        type="text"
-        name="phone"
-        value={formData.phone}
-        onChange={handleChange}
-        placeholder="Phone"
-        required
-      />
-      <button type="submit">Submit</button>
+    <form onSubmit={handleSubmit} className={styles.form}>
+      <div className={styles.formGroup}>
+        <label htmlFor="username">username:</label>
+        <input
+          type="username"
+          id="username"
+          value={username}
+          onChange={handleusernameChange}
+          required
+          className={styles.input}
+        />
+      </div>
+      <div className={styles.formGroup}>
+        <label htmlFor="password">password:</label>
+        <input
+          type="password"
+          id="password"
+          value={password}
+          onChange={handlepasswordChange}
+          required
+          className={styles.input}
+        />
+      </div>
+      <button type="submit" className={styles.button}>Login</button>
     </form>
   );
-};
+}
 
-export default FormComponent;
+export default Login;
