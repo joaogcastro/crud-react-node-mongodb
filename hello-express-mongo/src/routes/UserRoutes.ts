@@ -47,4 +47,18 @@ userRoutes.get("/getAll", async (req: Request, res: Response) => {
     }
 });
 
+userRoutes.delete("/delete", async (req: Request, res: Response) => {
+    try {
+      const id: string = req.body.id;
+      const response = await controller.delete(id);
+      return res.status(200).json(response);
+    } catch (error) {
+      if (error instanceof Error) {
+        return res.status(400).json({ error: error.message });
+      } else {
+        return res.status(500).json({ error: "An unknown error occurred." });
+      }
+    }
+  });
+
 export { userRoutes };

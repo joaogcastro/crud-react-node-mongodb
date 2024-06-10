@@ -21,7 +21,6 @@ export default function App() {
   async function loadCustomers() {
     try {
       const response = await api.get("/user/getAll");
-      console.log(response.data);
       setCustomers(response.data.users || []);
     } catch (error) {
       console.error("Error fetching customers:", error);
@@ -50,7 +49,7 @@ export default function App() {
   return (
     <div className="w-full min-h-screen bg-gray-900 flex justify-center px-4">
       <main className="my-10 w-full md:max-w-2xl">
-        <h1 className="text-4x1 font-medium text-white">Clientes</h1>
+        <h1 className="text-4x1 font-medium text-white">Usuarios</h1>
 
         <form className="flex flex-col my-6" onSubmit={handleSubmit}>
           <label className="font-medium text-white">Nome:</label>
@@ -73,7 +72,7 @@ export default function App() {
             customers.map((customer) => (
               <article key={customer.username} className="w-full bg-white rounded p-2 relative hover:scale-105 duration-200">
                 <p><span className="font-medium">Nome:</span> {customer.username}</p>
-                <p><span className="font-medium">Senha:</span> {customer.password}</p>
+                <p><span className="font-medium">Senha:</span> *********</p>
                 <p><span className="font-medium">Email:</span> {customer.email}</p>
 
                 <button className="bg-red-500 w-7 h-7 flex items-center justify-center rounded-lg absolute right-0 -top-2">

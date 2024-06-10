@@ -43,4 +43,14 @@ export default class UserController {
             return { error: error.message };
         }
     }
+
+    @Delete("/delete/{id}")
+    public async delete(id: string): Promise<JsonObject> {
+    try {
+      const deletedUser = await UserModel.findByIdAndDelete(id);
+      return { message: "User deleted successfully", user: deletedUser };
+    } catch (error: any) {
+      return { error: error.message };
+    }
+  }
 }

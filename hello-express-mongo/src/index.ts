@@ -14,7 +14,7 @@ const databaseUrl = process.env.DATABASE_URL || "";
 
 connect(databaseUrl)
 
-const allowedOrigins = ['http://localhost:3000', '127.0.0.2:4000', 'http://localhost:5173'];
+const allowedOrigins = ['http://localhost:2000', 'http://127.0.0.1:2000'];
 
 const options: cors.CorsOptions = {
   origin: allowedOrigins
