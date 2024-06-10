@@ -38,7 +38,7 @@ export default class UserController {
     public async getAll(): Promise<JsonObject> {
         try {
             const users = await UserModel.find();
-            return users;
+            return { users };
         } catch (error: any) {
             return { error: error.message };
         }
