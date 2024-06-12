@@ -49,6 +49,7 @@ userRoutes.get("/getAll", async (req: Request, res: Response) => {
 
 userRoutes.delete("/delete", async (req: Request, res: Response) => {
     try {
+        console.log("cardao");
       const id: string = req.body.id;
       const response = await controller.delete(id);
       return res.status(200).json(response);

@@ -3,7 +3,7 @@ import { FiTrash } from 'react-icons/fi';
 import { api } from './services/api';
 
 interface CustomerProps {
-  id: string;
+  _id: string;
   username: string;
   password: string;
   email: string;
@@ -23,6 +23,7 @@ export default function App() {
     try {
       const response = await api.get("/user/getAll");
       setCustomers(response.data.users || []);
+      console.log(response.data.users);
     } catch (error) {
       console.error("Error fetching customers:", error);
       setCustomers([]);
@@ -48,21 +49,27 @@ export default function App() {
 
     usernameRef.current.value = ""
     emailRef.current.value = ""
+    passwordRef.current.value = ""
   }
 
-  async function handleDelete(username: string){
-    try{
-      await api.delete("/user/delete", {
-        params:{
-          id: username,
-        }
-      })
-
-      const allCustomers = customers.filter( (customer) => customer.id !== id)
-      setCustomers(allCustomers)
-
-    }catch(err){
-      console.log(err);
+  async function handleDelete(id) {
+    try {
+      const response = await fetch('http://127.0.0.2:4000/user/delete', { 
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ id: id }) 
+      });
+  
+      if (!response.ok) {
+        throw new Error('Failed to delete');
+      }
+  
+      const result = await response.json();
+      console.log('Delete successful:', result);
+    } catch (error) {
+      console.error('Error:', error);
     }
   }
 
@@ -90,12 +97,12 @@ export default function App() {
         <section className="flex flex-col gap-4">
           {customers.length > 0 ? (
             customers.map((customer) => (
-              <article key={customer.id} className="w-full bg-white rounded p-2 relative hover:scale-105 duration-200">
+              <article key={customer._id} className="w-full bg-white rounded p-2 relative hover:scale-105 duration-200">
                 <p><span className="font-medium">Nome:</span> {customer.username}</p>
                 <p><span className="font-medium">Senha:</span> *********</p>
                 <p><span className="font-medium">Email:</span> {customer.email}</p>
 
-                <button className="bg-red-500 w-7 h-7 flex items-center justify-center rounded-lg absolute right-0 -top-2" onClick={ () => handleDelete(customer.username) }>
+                <button className="bg-red-500 w-7 h-7 flex items-center justify-center rounded-lg absolute right-0 -top-2" onClick={ () => handleDelete(customer._id) }>
                   <FiTrash size={18} color="FFF" />
                 </button>
               </article>
