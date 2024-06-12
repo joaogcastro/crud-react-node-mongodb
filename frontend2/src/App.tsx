@@ -3,6 +3,7 @@ import { FiTrash } from 'react-icons/fi';
 import { api } from './services/api';
 
 interface CustomerProps {
+  id: string;
   username: string;
   password: string;
   email: string;
@@ -10,9 +11,9 @@ interface CustomerProps {
 
 export default function App() {
   const [customers, setCustomers] = useState<CustomerProps[]>([]);
-  const usernameRef = useRef<HTMLInputElement>(null)
+  const usernameRef = useRef<HTMLInputElement | null>(null)
   const passwordRef = useRef<HTMLInputElement>(null)
-  const emailRef = useRef<HTMLInputElement>(null)
+  const emailRef = useRef<HTMLInputElement | null>(null)
 
   useEffect(() => {
     loadCustomers();
@@ -44,6 +45,25 @@ export default function App() {
     } catch (error) {
       console.error("Error creating customer:", error);
     }
+
+    usernameRef.current.value = ""
+    emailRef.current.value = ""
+  }
+
+  async function handleDelete(username: string){
+    try{
+      await api.delete("/user/delete", {
+        params:{
+          id: username,
+        }
+      })
+
+      const allCustomers = customers.filter( (customer) => customer.id !== id)
+      setCustomers(allCustomers)
+
+    }catch(err){
+      console.log(err);
+    }
   }
 
   return (
@@ -70,12 +90,12 @@ export default function App() {
         <section className="flex flex-col gap-4">
           {customers.length > 0 ? (
             customers.map((customer) => (
-              <article key={customer.username} className="w-full bg-white rounded p-2 relative hover:scale-105 duration-200">
+              <article key={customer.id} className="w-full bg-white rounded p-2 relative hover:scale-105 duration-200">
                 <p><span className="font-medium">Nome:</span> {customer.username}</p>
                 <p><span className="font-medium">Senha:</span> *********</p>
                 <p><span className="font-medium">Email:</span> {customer.email}</p>
 
-                <button className="bg-red-500 w-7 h-7 flex items-center justify-center rounded-lg absolute right-0 -top-2">
+                <button className="bg-red-500 w-7 h-7 flex items-center justify-center rounded-lg absolute right-0 -top-2" onClick={ () => handleDelete(customer.username) }>
                   <FiTrash size={18} color="FFF" />
                 </button>
               </article>
