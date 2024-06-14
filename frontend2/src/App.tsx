@@ -1,6 +1,11 @@
 import { useEffect, useState, useRef, FormEvent } from 'react';
 import { FiTrash } from 'react-icons/fi';
 import { api } from './services/api';
+import * as ReactDOM from "react-dom";
+import{
+  createBrowserRouter,
+  RouterProvider,
+} from "react-router-dom";
 
 interface CustomerProps {
   _id: string;
@@ -8,6 +13,10 @@ interface CustomerProps {
   password: string;
   email: string;
 }
+
+
+
+
 
 export default function App() {
   const [customers, setCustomers] = useState<CustomerProps[]>([]);
@@ -52,7 +61,7 @@ export default function App() {
     passwordRef.current.value = ""
   }
 
-  async function handleDelete(id) {
+  async function handleDelete(id: number) {
     try {
       const response = await fetch('http://127.0.0.2:4000/user/delete', { 
         method: 'DELETE',
