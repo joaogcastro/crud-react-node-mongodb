@@ -1,11 +1,11 @@
 import { useEffect, useState, useRef, FormEvent } from 'react';
 import { FiTrash } from 'react-icons/fi';
 import { api } from './services/api';
-import * as ReactDOM from "react-dom";
+/*import * as ReactDOM from "react-dom";
 import{
   createBrowserRouter,
   RouterProvider,
-} from "react-router-dom";
+} from "react-router-dom";*/
 
 interface CustomerProps {
   _id: string;

@@ -4,7 +4,7 @@ import UserController from "../controllers/UserController";
 const userRoutes = express.Router();
 const controller = new UserController();
 
-userRoutes.post("/auth", async (req: Request<any, any, { username: string; password: string; email: string }>, res: Response) => {
+userRoutes.post("/auth", async (req: Request, res: Response) => {
     try {
         const auth = await controller.authenticate(req.body);
         if (auth) {
@@ -19,9 +19,9 @@ userRoutes.post("/auth", async (req: Request<any, any, { username: string; passw
             return res.status(500).json({ error: "An unknown error occurred." });
         }
     }
-})
+});
 
-userRoutes.post("/create", async (req: Request<any, any, { username: string; password: string; email: string }>, res: Response) => {
+userRoutes.post("/create", async (req: Request, res: Response) => {
     try {
         const response = await controller.create(req.body);
         return res.status(200).json(response);
@@ -49,17 +49,16 @@ userRoutes.get("/getAll", async (req: Request, res: Response) => {
 
 userRoutes.delete("/delete", async (req: Request, res: Response) => {
     try {
-        console.log("cardao");
-      const id: string = req.body.id;
-      const response = await controller.delete(id);
-      return res.status(200).json(response);
+        const id: string = req.body.id;
+        const response = await controller.delete(id);
+        return res.status(200).json(response);
     } catch (error) {
-      if (error instanceof Error) {
-        return res.status(400).json({ error: error.message });
-      } else {
-        return res.status(500).json({ error: "An unknown error occurred." });
-      }
+        if (error instanceof Error) {
+            return res.status(400).json({ error: error.message });
+        } else {
+            return res.status(500).json({ error: "An unknown error occurred." });
+        }
     }
-  });
+});
 
 export { userRoutes };
