@@ -64,6 +64,11 @@ body {
     background-color: #333;
 }
 
+.actions-cell {
+    display: flex;
+    gap: 10px;
+}
+
 .edit-button, .delete-button {
     padding: 5px 10px;
     border: none;

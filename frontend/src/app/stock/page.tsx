@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useRouter } from 'next/navigation';
 import './Stock.css';
 import EditProduct from './EditProduct'; // Importe o componente EditProduct
 
@@ -16,6 +17,7 @@ const Stock: React.FC = () => {
     const [products, setProducts] = useState<Product[]>([]);
     const [searchTerm, setSearchTerm] = useState<string>('');
     const [editingProductId, setEditingProductId] = useState<string | null>(null); // Estado para controlar o ID do produto em edição
+    const router = useRouter(); // Hook para manipulação de navegação
 
     useEffect(() => {
         fetchProducts();
@@ -51,8 +53,7 @@ const Stock: React.FC = () => {
     };
 
     const handleBack = () => {
-        console.log('Voltar');
-        // Adicione a lógica necessária para a ação de voltar
+        router.push('/menu'); // Redireciona para a página do menu
     };
 
     const filteredProducts = products.filter(product =>
@@ -86,7 +87,7 @@ const Stock: React.FC = () => {
                             <td>{product.nameProduct}</td>
                             <td>{product.typeProduct}</td>
                             <td>{product.quantityProduct}</td>
-                            <td>
+                            <td className="actions-cell">
                                 <button className="edit-button" onClick={() => handleEdit(product._id)}>Editar</button>
                                 <button className="delete-button" onClick={() => handleDelete(product._id)}>Excluir</button>
                             </td>
@@ -100,7 +101,7 @@ const Stock: React.FC = () => {
                 <div className="modal-background">
                     <div className="modal-content">
                         <button className="close-button" onClick={handleCloseModal}>Fechar</button>
-                        <EditProduct productId={editingProductId} />
+                        <EditProduct productId={editingProductId} onClose={handleCloseModal} />
                     </div>
                 </div>
             )}

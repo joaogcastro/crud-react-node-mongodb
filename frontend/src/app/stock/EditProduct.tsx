@@ -11,7 +11,7 @@ interface Product {
     quantityProduct: number;
 }
 
-const EditProduct: React.FC<{ productId: string }> = ({ productId }) => {
+const EditProduct: React.FC<{ productId: string, onClose: () => void }> = ({ productId, onClose }) => {
     const [nameProduct, setNameProduct] = useState<string>('');
     const [typeProduct, setTypeProduct] = useState<string>('');
     const [quantityProduct, setQuantityProduct] = useState<number>(0);
@@ -39,50 +39,50 @@ const EditProduct: React.FC<{ productId: string }> = ({ productId }) => {
         })
         .then(response => {
             console.log('Produto atualizado com sucesso:', response.data);
-            // Redirecionar ou realizar outra ação após a atualização
+            onClose(); // Fechar o modal após a atualização
         })
         .catch(error => {
             console.error('Erro ao atualizar produto:', error);
         });
     };
 
-    const handleBack = () => {
-        // Implementar lógica para voltar, como redirecionar para a página anterior
-        console.log('Voltar');
-    };
-
     return (
         <div className="edit-product-container">
-            <h2>Editar Produto</h2>
-            <form className="edit-product-form" onSubmit={(e) => e.preventDefault()}>
-                <div className="form-group">
-                    <label>Nome do Produto:</label>
-                    <input 
-                        type="text" 
-                        value={nameProduct} 
-                        onChange={(e) => setNameProduct(e.target.value)} 
-                    />
+            <div className="modal">
+                <div className="modal-header">
+                    <h2>Editar Produto</h2>
+                    <button className="close-button" onClick={onClose}>Fechar</button>
                 </div>
-                <div className="form-group">
-                    <label>Tipo do Produto:</label>
-                    <input 
-                        type="text" 
-                        value={typeProduct} 
-                        onChange={(e) => setTypeProduct(e.target.value)} 
-                    />
-                </div>
-                <div className="form-group">
-                    <label>Quantidade:</label>
-                    <input 
-                        type="number" 
-                        value={quantityProduct} 
-                        onChange={(e) => setQuantityProduct(Number(e.target.value))} 
-                    />
-                </div>
-                <div className="button-group">
-                    <button className="update-button" onClick={handleUpdateProduct}>Atualizar Produto</button>
-                </div>
-            </form>
+                <form className="edit-product-form" onSubmit={(e) => e.preventDefault()}>
+                    <div className="form-group">
+                        <label>Nome do Produto:</label>
+                        <input 
+                            type="text" 
+                            value={nameProduct} 
+                            onChange={(e) => setNameProduct(e.target.value)} 
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label>Tipo do Produto:</label>
+                        <input 
+                            type="text" 
+                            value={typeProduct} 
+                            onChange={(e) => setTypeProduct(e.target.value)} 
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label>Quantidade:</label>
+                        <input 
+                            type="number" 
+                            value={quantityProduct} 
+                            onChange={(e) => setQuantityProduct(Number(e.target.value))} 
+                        />
+                    </div>
+                    <div className="button-group">
+                        <button className="update-button" onClick={handleUpdateProduct}>Atualizar Produto</button>
+                    </div>
+                </form>
+            </div>
         </div>
     );
 }
