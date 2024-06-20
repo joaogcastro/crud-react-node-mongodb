@@ -1,5 +1,4 @@
 import express, { Express, Request, Response } from "express";
-import swaggerUi from "swagger-ui-express";
 import { connect } from "./service/database";
 import dotenv from "dotenv";
 import { userRoutes } from "./routes/UserRoutes";

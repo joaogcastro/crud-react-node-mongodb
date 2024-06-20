@@ -1,9 +1,13 @@
-import { Body, Get, Patch, Delete, Post, Route } from "tsoa";
 import { UserModel } from "../models/UserModel";
-import { JsonObject } from "swagger-ui-express";
+
+type JsonResponse = {
+    message?: string;
+    user?: any;
+    users?: any[];
+    error?: string;
+};
 
 export default class UserController {
-    @Post("/auth")
     public async authenticate(body: { username: string; password: string; email: string }): Promise<boolean> {
         try {
             const userToBeAuth = new UserModel(body);
@@ -22,9 +26,8 @@ export default class UserController {
             return false;
         }
     }
-    
-    @Post("/create")
-    public async create(@Body() body: { username: string; password: string; email: string }): Promise<JsonObject> {
+
+    public async create(body: { username: string; password: string; email: string }): Promise<JsonResponse> {
         try {
             const data = new UserModel(body);
             await data.save();
@@ -34,8 +37,7 @@ export default class UserController {
         }
     }
 
-    @Get("/getAll")
-    public async getAll(): Promise<JsonObject> {
+    public async getAll(): Promise<JsonResponse> {
         try {
             const users = await UserModel.find();
             return { users };
@@ -44,8 +46,7 @@ export default class UserController {
         }
     }
 
-    @Delete("/delete/{id}")
-    public async delete(id: string): Promise<JsonObject> {
+    public async delete(id: string): Promise<JsonResponse> {
     try {
       const deletedUser = await UserModel.findByIdAndDelete(id);
       return { message: "User deleted successfully", user: deletedUser };
