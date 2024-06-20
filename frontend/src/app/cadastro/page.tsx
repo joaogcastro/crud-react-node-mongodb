@@ -3,7 +3,7 @@ import { useEffect, useState, useRef, FormEvent } from 'react';
 import { FiTrash } from 'react-icons/fi';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
-import './CadastroProdutos.css';
+//import './CadastroProdutos.css';
 
 interface ProductProps {
   _id: string;
@@ -27,7 +27,7 @@ export default function CadastroProdutos() {
 
   async function loadProducts() {
     try {
-      const response = await axios.get('/product/getAll');
+      const response = await axios.get('http://127.0.0.2:4000/product/getAll');
       setProducts(response.data || []);
       console.log(response.data);
     } catch (error) {
@@ -48,7 +48,7 @@ export default function CadastroProdutos() {
       return;
 
     try {
-      const response = await axios.post('/product/create', {
+      const response = await axios.post('http://127.0.0.2:4000/product/create', {
         nameProduct: nameProductRef.current?.value,
         typeProduct: typeProductRef.current?.value,
         quantityProduct: quantityProductRef.current?.value,
@@ -68,7 +68,7 @@ export default function CadastroProdutos() {
 
   async function handleDelete(id: string) {
     try {
-      const response = await axios.delete(`/product/delete/${id}`);
+      const response = await axios.delete(`http://127.0.0.2:4000/product/delete/${id}`);
       console.log('Delete successful:', response.data);
       loadProducts();
     } catch (error) {

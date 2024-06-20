@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
-import './Stock.css';
+//import './Stock.css';
 import EditProduct from './EditProduct'; // Importe o componente EditProduct
 
 interface Product {
@@ -98,12 +98,10 @@ const Stock: React.FC = () => {
 
             {/* Modal de Edição */}
             {editingProductId && (
-                <div className="modal-background">
                     <div className="modal-content">
                         <button className="close-button" onClick={handleCloseModal}>Fechar</button>
                         <EditProduct productId={editingProductId} onClose={handleCloseModal} />
                     </div>
-                </div>
             )}
         </div>
     );

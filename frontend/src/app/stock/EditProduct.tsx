@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import './Stock.css';
+//import './Stock.css';
 
 interface Product {
     _id: string;

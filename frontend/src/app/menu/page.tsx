@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { useRouter } from 'next/navigation';
-import './Menu.css';
+//import './Menu.css';
 
 const Menu: React.FC = () => {
   const router = useRouter();

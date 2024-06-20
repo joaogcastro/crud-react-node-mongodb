@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation'; // Corrigir importação
-import './Login.css';
+//import './Login.css';
 
 const Login: React.FC = () => {
   const [username, setUsername] = useState('');
