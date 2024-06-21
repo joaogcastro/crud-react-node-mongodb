@@ -1,9 +1,9 @@
 'use client';
-import { useEffect, useState, useRef, FormEvent } from 'react';
+import { useState, useRef, FormEvent } from 'react';
 import { FiTrash } from 'react-icons/fi';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
-//import './CadastroProdutos.css';
+//import './CadastroProdutos.css'; // Certifique-se de que este arquivo existe e está correto
 
 interface ProductProps {
   _id: string;
@@ -21,21 +21,6 @@ export default function CadastroProdutos() {
   const priceProductRef = useRef<HTMLInputElement | null>(null);
   const router = useRouter();
 
-  useEffect(() => {
-    loadProducts();
-  }, []);
-
-  async function loadProducts() {
-    try {
-      const response = await axios.get('http://127.0.0.2:4000/product/getAll');
-      setProducts(response.data || []);
-      console.log(response.data);
-    } catch (error) {
-      console.error('Error fetching products:', error);
-      setProducts([]);
-    }
-  }
-
   async function handleSubmit(event: FormEvent) {
     event.preventDefault();
 
@@ -44,8 +29,10 @@ export default function CadastroProdutos() {
       !typeProductRef.current?.value ||
       !quantityProductRef.current?.value ||
       !priceProductRef.current?.value
-    )
+    ) {
+      console.warn('Todos os campos são obrigatórios');
       return;
+    }
 
     try {
       const response = await axios.post('http://127.0.0.2:4000/product/create', {
@@ -54,25 +41,32 @@ export default function CadastroProdutos() {
         quantityProduct: quantityProductRef.current?.value,
         priceProduct: priceProductRef.current?.value,
       });
-      console.log(response.data);
-      loadProducts();
+      console.log('Produto criado:', response.data);
+
+      // Atualizar o estado com o novo produto
+      setProducts((prevProducts) => [...prevProducts, response.data.product]);
     } catch (error) {
-      console.error('Error creating product:', error);
+      console.error('Erro ao criar produto:', error);
     }
 
-    nameProductRef.current.value = '';
-    typeProductRef.current.value = '';
-    quantityProductRef.current.value = '';
-    priceProductRef.current.value = '';
+    // Limpar os campos do formulário
+    if (nameProductRef.current) nameProductRef.current.value = '';
+    if (typeProductRef.current) typeProductRef.current.value = '';
+    if (quantityProductRef.current) quantityProductRef.current.value = '';
+    if (priceProductRef.current) priceProductRef.current.value = '';
   }
 
   async function handleDelete(id: string) {
     try {
-      const response = await axios.delete(`http://127.0.0.2:4000/product/delete/${id}`);
-      console.log('Delete successful:', response.data);
-      loadProducts();
+      const response = await axios.delete('http://127.0.0.2:4000/product/delete', {
+        data: { id: id },
+      });
+      console.log('Produto deletado:', response.data);
+
+      // Atualizar o estado removendo o produto deletado
+      setProducts((prevProducts) => prevProducts.filter(product => product._id !== id));
     } catch (error) {
-      console.error('Error:', error);
+      console.error('Erro ao deletar produto:', error);
     }
   }
 
@@ -157,7 +151,7 @@ export default function CadastroProdutos() {
               </article>
             ))
           ) : (
-            <p className="no-products">Nenhum produto encontrado.</p>
+            <p className="no-products">Nenhum produto cadastrado.</p>
           )}
         </section>
       </main>
