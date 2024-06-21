@@ -5,7 +5,7 @@ import { ProductModel } from "../models/ProductModel";
 const productRoutes = express.Router();
 const controller = new ProductController();
 
-productRoutes.post("/create", async (req: Request<any, any, { nameProduct: string; typeProduct: string; quantityProduct: number }>, res: Response) => {
+productRoutes.post("/create", async (req: Request<any, any, { nameProduct: string; typeProduct: string; quantityProduct: number, priceProduct: number }>, res: Response) => {
   try {
     const response = await controller.create(req.body);
     return res.status(200).json(response);

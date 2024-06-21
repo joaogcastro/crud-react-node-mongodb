@@ -8,7 +8,7 @@ type JsonResponse = {
 };
 
 export default class ProductController {
-  public async create(body: { nameProduct: string; typeProduct: string; quantityProduct: number }): Promise<JsonResponse> {
+  public async create(body: { nameProduct: string; typeProduct: string; quantityProduct: number; priceProduct: number }): Promise<JsonResponse> {
     try {
       const data = new ProductModel(body);
       await data.save();

@@ -13,7 +13,7 @@ const databaseUrl = process.env.DATABASE_URL || "";
 
 connect(databaseUrl);
 
-const allowedOrigins = ['http://localhost:2000', 'http://127.0.0.1:2000', 'http://127.0.0.1:3000', 'http://localhost:3000'];
+const allowedOrigins = ['http://127.0.0.1:3000', 'http://localhost:3000'];
 const options: cors.CorsOptions = {
   origin: allowedOrigins
 };
@@ -26,7 +26,7 @@ app.use("/user", userRoutes);
 app.use("/product", productRoutes);
 
 app.get("/", (req: Request, res: Response) => {
-  res.send("Express + TypeScript Server");
+  res.send(`Backend running at ${hostname}:${port}`);
 });
 
 app.listen(port, hostname, () => {

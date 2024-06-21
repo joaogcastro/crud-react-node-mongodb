@@ -5,6 +5,7 @@ export interface Product extends Document {
   nameProduct: string;
   typeProduct: string;
   quantityProduct: number;
+  priceProduct: number;
 }
 
 // Definindo o modelo de produto com base no esquema fornecido
@@ -18,6 +19,10 @@ export const ProductModel = mongoose.model<Product>("Product", new mongoose.Sche
     required: true,
   },
   quantityProduct: {
+    type: Number,
+    required: true,
+  },
+  priceProduct: {
     type: Number,
     required: true,
   }
