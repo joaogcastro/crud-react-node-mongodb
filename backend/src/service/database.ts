@@ -1,4 +1,7 @@
 import mongoose from "mongoose";
+import { Logger } from "../utils/logger";
+
+const logger = new Logger();
 
 export const connect = (databaseUrl: string) =>{
     mongoose.connect(databaseUrl)
@@ -9,6 +12,6 @@ export const connect = (databaseUrl: string) =>{
     })
     
     database.once('connected', () => {
-      console.log('Database Connected');
+      logger.info('Database Connected');
     })    
 }

@@ -4,8 +4,10 @@ import dotenv from "dotenv";
 import { userRoutes } from "./routes/UserRoutes";
 import { productRoutes } from "./routes/ProductRoutes";
 import cors from "cors";
+import { Logger } from "./utils/logger";
 
 dotenv.config();
+const logger = new Logger();
 const app: Express = express();
 const port = process.env.PORT ? parseInt(process.env.PORT) : 4000;
 const hostname = process.env.HOSTNAME || 'localhost';
@@ -30,5 +32,5 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 app.listen(port, hostname, () => {
-  console.log(`Server Started at ${hostname}:${port}`);
+  logger.info(`Server Started at ${hostname}:${port}`);
 });

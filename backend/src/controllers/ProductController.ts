@@ -44,4 +44,41 @@ export default class ProductController {
       return { error: error.message };
     }
   }
+
+  public async search(body: {filterType: string, searchTerm: string}): Promise<JsonResponse> {
+    try{
+      let filter, isNumber = false;
+      const value = body.searchTerm;
+
+      switch(body.filterType) {
+        case 'name':
+          filter = 'nameProduct';
+          break;
+        case 'type':
+          filter = 'typeProduct';
+          break;
+        case 'quantity':
+          filter = 'quantityProduct';
+          isNumber = true;
+          break;
+        case 'price':
+          filter = 'priceProduct';
+          isNumber = true;
+          break;
+        default:
+          return { error: 'Invalid Filter Type'};
+      }
+
+      if(isNumber === true) {
+        const products = await ProductModel.find({ [filter]: [value] }).exec();
+        return { products };
+      }
+
+      const products = await ProductModel.find({ [filter]: new RegExp(value, 'i') }).exec();
+      return { products } ;
+
+    } catch (error: any) {
+      return { error: error.message };
+    }
+  }
 }

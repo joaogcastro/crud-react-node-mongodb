@@ -68,7 +68,7 @@ const Stock: React.FC = () => {
             searchTerm: searchTerm,
         })
             .then(response => {
-                setProducts(response.data || []);
+                setProducts(response.data.products || []);
             })
             .catch(error => {
                 console.error('Erro ao buscar produtos:', error);

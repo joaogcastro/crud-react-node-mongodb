@@ -8,19 +8,18 @@ type JsonResponse = {
 };
 
 export default class UserController {
-    public async authenticate(body: { username: string; password: string; email: string }): Promise<boolean> {
+    public async authenticate(username: string, password: string): Promise<boolean> {
         try {
-            const userToBeAuth = new UserModel(body);
-            if(!userToBeAuth.username) {
+            if(!username) {
                 return false;
             }
-            const userFinded = await UserModel.findOne({ username: userToBeAuth.username });
+            const userFinded = await UserModel.findOne({ username: username });
 
-            if (userToBeAuth.password === userFinded?.password) {
-                return true;
-            } else {
+            if (password !== userFinded?.password) {
                 return false;
             }
+            return true;
+            
         } catch (error: any) {
             console.error(error.message);
             return false;
