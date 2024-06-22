@@ -11,7 +11,6 @@ productRoutes.post("/create", async (req: Request<any, any, { nameProduct: strin
   try {
     const response = await controller.create(req.body);
     logger.info("Product created successfully");
-    logger.debug(`Product created: ${response}`);
     return res.status(200).json(response);
   } catch (error) {
     if (error instanceof Error) {
@@ -89,7 +88,6 @@ productRoutes.delete("/delete", async (req: Request, res: Response) => {
   try {
     const id: string = req.body.id;
     const response = await controller.delete(id);
-    logger.debug(`Deleted user ${response}`);
     logger.info(`Product ID:${id} deleted successfully.`);
     return res.status(200).json(response);
   } catch (error) {

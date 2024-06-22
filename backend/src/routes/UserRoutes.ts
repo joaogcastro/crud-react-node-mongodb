@@ -32,7 +32,6 @@ userRoutes.post("/create", async (req: Request, res: Response) => {
     try {
         const response = await controller.create(req.body);
         logger.info("User created successfully");
-        logger.debug(`User created: ${response}`);
         return res.status(200).json(response);
     } catch (error) {
         if (error instanceof Error) {
@@ -65,7 +64,6 @@ userRoutes.delete("/delete", async (req: Request, res: Response) => {
     try {
         const id: string = req.body.id;
         const response = await controller.delete(id);
-        logger.debug(`Deleted user ${response}`);
         logger.info(`User ID:${id} deleted successfully.`);
         return res.status(200).json(response);
     } catch (error) {
