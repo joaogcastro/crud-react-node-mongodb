@@ -5,6 +5,7 @@ import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import EditProduct from './EditProduct';
 import WithdrawProduct from './WithdrawProduct'; // Importe o componente WithdrawProduct
+import { useStore } from './store'; // Importe a store do Zustand
 
 interface Product {
     _id: string;
@@ -19,13 +20,19 @@ const Stock: React.FC = () => {
     const [searchTerm, setSearchTerm] = useState<string>('');
     const [filterType, setFilterType] = useState<string>('name');
     const [editingProductId, setEditingProductId] = useState<string | null>(null);
-    const [withdrawingProductId, setWithdrawingProductId] = useState<string | null>(null); // Estado para controlar o ID do produto em retirada
+    const [withdrawingProductId, setWithdrawingProductId] = useState<string | null>(null);
+    const { selectedProductId, setSelectedProductId, lowStockProducts, setLowStockProducts } = useStore();
     const router = useRouter();
 
     const fetchProducts = () => {
         axios.get<Product[]>('http://127.0.0.2:4000/product/getAll')
             .then(response => {
-                setProducts(response.data.products || []);
+                const fetchedProducts = response.data.products || [];
+                setProducts(fetchedProducts);
+                const lowStockIds = fetchedProducts
+                    .filter(product => product.quantityProduct <= 5)
+                    .map(product => product._id);
+                setLowStockProducts(lowStockIds);
             })
             .catch(error => {
                 console.error('Erro ao buscar produtos:', error);
@@ -74,7 +81,12 @@ const Stock: React.FC = () => {
             searchTerm: searchTerm,
         })
             .then(response => {
-                setProducts(response.data.products || []);
+                const searchedProducts = response.data.products || [];
+                setProducts(searchedProducts);
+                const lowStockIds = searchedProducts
+                    .filter(product => product.quantityProduct <= 5)
+                    .map(product => product._id);
+                setLowStockProducts(lowStockIds);
             })
             .catch(error => {
                 console.error('Erro ao buscar produtos:', error);
@@ -85,6 +97,14 @@ const Stock: React.FC = () => {
     useEffect(() => {
         fetchProducts();
     }, []);
+
+    const handleRowClick = (event: React.MouseEvent, productId: string) => {
+        if ((event.target as HTMLElement).tagName === 'BUTTON') {
+            // Ignore click events on buttons
+            return;
+        }
+        setSelectedProductId(productId);
+    };
 
     return (
         <div className="stock-container">
@@ -122,7 +142,13 @@ const Stock: React.FC = () => {
                 <tbody>
                     {products.length > 0 ? (
                         products.map(product => (
-                            <tr key={product._id}>
+                            <tr
+                                key={product._id}
+                                style={{
+                                    backgroundColor: lowStockProducts.includes(product._id) ? 'red' : (selectedProductId === product._id ? 'red' : 'transparent'),
+                                }}
+                                onClick={(event) => handleRowClick(event, product._id)}
+                            >
                                 <td>{product.nameProduct}</td>
                                 <td>{product.typeProduct}</td>
                                 <td>{product.quantityProduct}</td>
