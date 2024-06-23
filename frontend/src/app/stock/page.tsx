@@ -3,8 +3,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
-//import './Stock.css';
-import EditProduct from './EditProduct'; // Importe o componente EditProduct
+import EditProduct from './EditProduct';
+import WithdrawProduct from './WithdrawProduct'; // Importe o componente WithdrawProduct
 
 interface Product {
     _id: string;
@@ -18,8 +18,9 @@ const Stock: React.FC = () => {
     const [products, setProducts] = useState<Product[]>([]);
     const [searchTerm, setSearchTerm] = useState<string>('');
     const [filterType, setFilterType] = useState<string>('name');
-    const [editingProductId, setEditingProductId] = useState<string | null>(null); // Estado para controlar o ID do produto em edição
-    const router = useRouter(); // Hook para manipulação de navegação
+    const [editingProductId, setEditingProductId] = useState<string | null>(null);
+    const [withdrawingProductId, setWithdrawingProductId] = useState<string | null>(null); // Estado para controlar o ID do produto em retirada
+    const router = useRouter();
 
     const fetchProducts = () => {
         axios.get<Product[]>('http://127.0.0.2:4000/product/getAll')
@@ -33,7 +34,11 @@ const Stock: React.FC = () => {
     };
 
     const handleEdit = (productId: string) => {
-        setEditingProductId(productId); // Define o ID do produto que será editado
+        setEditingProductId(productId);
+    };
+
+    const handleWithdraw = (productId: string) => {
+        setWithdrawingProductId(productId);
     };
 
     const handleDelete = (productId: string) => {
@@ -42,7 +47,7 @@ const Stock: React.FC = () => {
         })
             .then(response => {
                 console.log('Produto excluído com sucesso:', response.data);
-                fetchProducts(); // Atualiza a lista de produtos após a exclusão
+                fetchProducts();
             })
             .catch(error => {
                 console.error('Erro ao excluir produto:', error);
@@ -50,11 +55,12 @@ const Stock: React.FC = () => {
     };
 
     const handleCloseModal = () => {
-        setEditingProductId(null); // Fecha o modal de edição
+        setEditingProductId(null);
+        setWithdrawingProductId(null);
     };
 
     const handleBack = () => {
-        router.push('/menu'); // Redireciona para a página do menu
+        router.push('/menu');
     };
 
     const handleSearch = () => {
@@ -75,6 +81,10 @@ const Stock: React.FC = () => {
                 setProducts([]);
             });
     };
+
+    useEffect(() => {
+        fetchProducts();
+    }, []);
 
     return (
         <div className="stock-container">
@@ -119,6 +129,7 @@ const Stock: React.FC = () => {
                                 <td>{product.priceProduct}</td>
                                 <td className="actions-cell">
                                     <button className="edit-button" onClick={() => handleEdit(product._id)}>Editar</button>
+                                    <button className="withdraw-button" onClick={() => handleWithdraw(product._id)}>Retirar Itens</button>
                                     <button className="delete-button" onClick={() => handleDelete(product._id)}>Excluir</button>
                                 </td>
                             </tr>
@@ -135,7 +146,15 @@ const Stock: React.FC = () => {
             {editingProductId && (
                 <div className="modal-content">
                     <button className="close-button" onClick={handleCloseModal}>Fechar</button>
-                    <EditProduct productId={editingProductId} onClose={handleCloseModal} />
+                    <EditProduct productId={editingProductId} onClose={handleCloseModal} onUpdate={fetchProducts} />
+                </div>
+            )}
+
+            {/* Modal de Retirada */}
+            {withdrawingProductId && (
+                <div className="modal-content">
+                    <button className="close-button" onClick={handleCloseModal}>Fechar</button>
+                    <WithdrawProduct productId={withdrawingProductId} onClose={handleCloseModal} onWithdraw={fetchProducts} />
                 </div>
             )}
         </div>

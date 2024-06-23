@@ -9,9 +9,25 @@ const controller = new ProductController();
 
 productRoutes.post("/create", async (req: Request<any, any, { nameProduct: string; typeProduct: string; quantityProduct: number, priceProduct: number }>, res: Response) => {
   try {
-    const response = await controller.create(req.body);
-    logger.info("Product created successfully");
-    return res.status(200).json(response);
+    const { nameProduct, typeProduct, quantityProduct, priceProduct } = req.body;
+
+    // Verifica se o produto já existe
+    const existingProduct = await ProductModel.findOne({ nameProduct, typeProduct });
+
+    if (existingProduct) {
+      // Atualiza a quantidade e o preço
+      existingProduct.quantityProduct += quantityProduct;
+      existingProduct.priceProduct = priceProduct;
+
+      const updatedProduct = await existingProduct.save();
+      logger.info("Product updated successfully");
+      return res.status(200).json({ message: "Product updated successfully", product: updatedProduct });
+    } else {
+      // Cria um novo produto
+      const response = await controller.create(req.body);
+      logger.info("Product created successfully");
+      return res.status(200).json(response);
+    }
   } catch (error) {
     if (error instanceof Error) {
       logger.error(`Error: ${error.message}`);
@@ -42,7 +58,7 @@ productRoutes.get("/getAll", async (req: Request, res: Response) => {
 productRoutes.put("/update/", async (req: Request, res: Response) => {
   try {
     const id: string = req.body.productId;
-    const { nameProduct, typeProduct, quantityProduct, priceProduct } = req.body;
+    const { nameProduct, typeProduct, priceProduct } = req.body;
 
     const existingProduct = await ProductModel.findById(id);
     logger.debug(`Product before update ${existingProduct}`);
@@ -59,10 +75,6 @@ productRoutes.put("/update/", async (req: Request, res: Response) => {
       logger.debug("Product type will be updated");
       existingProduct.typeProduct = typeProduct;
     }
-    if (quantityProduct !== null) {
-      logger.debug("Product quantity will be updated");
-      existingProduct.quantityProduct = quantityProduct;
-    }
     if (priceProduct !== null) {
       logger.debug("Product price will be updated");
       existingProduct.priceProduct = priceProduct;
@@ -73,6 +85,40 @@ productRoutes.put("/update/", async (req: Request, res: Response) => {
 
     logger.info("Product updated successfully");
     return res.status(200).json({ message: "Product updated successfully", product: updatedProduct });
+  } catch (error) {
+    if (error instanceof Error) {
+      logger.error(`Error: ${error.message}`);
+      return res.status(400).json({ error: error.message });
+    } else {
+      logger.error("An unknown error occurred");
+      return res.status(500).json({ error: "An unknown error occurred." });
+    }
+  }
+});
+
+productRoutes.put("/withdraw/", async (req: Request, res: Response) => {
+  try {
+    const { productId, quantityToWithdraw } = req.body;
+
+    const existingProduct = await ProductModel.findById(productId);
+    logger.debug(`Product before withdraw ${existingProduct}`);
+
+    if (!existingProduct) {
+      logger.error(`Product not found with ID: ${productId}`);
+      return res.status(404).json({ error: "Product not found" });
+    }
+    if (existingProduct.quantityProduct < quantityToWithdraw) {
+      logger.error(`Insufficient stock for Product ID: ${productId}`);
+      return res.status(400).json({ error: "Insufficient stock" });
+    }
+
+    existingProduct.quantityProduct -= quantityToWithdraw;
+
+    logger.debug(`Updated Product after withdraw: ${existingProduct}`);
+    const updatedProduct = await existingProduct.save();
+
+    logger.info("Product stock updated successfully");
+    return res.status(200).json({ message: "Product stock updated successfully", product: updatedProduct });
   } catch (error) {
     if (error instanceof Error) {
       logger.error(`Error: ${error.message}`);
