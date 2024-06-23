@@ -27,10 +27,31 @@ export default class ProductController {
     }
   }
   
-  public async update(body: { nameProduct?: string; typeProduct?: string; quantityProduct?: number }, id: string): Promise<JsonResponse> {
+  public async update(body: { nameProduct?: string; typeProduct?: string; quantityProduct?: number, priceProduct?: number }, id: string): Promise<JsonResponse> {
     try {
       const updatedProduct = await ProductModel.findByIdAndUpdate(id, body, { new: true });
       return { message: "Product updated successfully", product: updatedProduct };
+    } catch (error: any) {
+      return { error: error.message };
+    }
+  }
+
+  public async withdraw(body: { productId: string; quantityToWithdraw: number }): Promise<JsonResponse> {
+    try {
+      const { productId, quantityToWithdraw } = body;
+      const existingProduct = await ProductModel.findById(productId);
+
+      if (!existingProduct) {
+        return { error: "Product not found" };
+      }
+      if (existingProduct.quantityProduct < quantityToWithdraw) {
+        return { error: "Insufficient stock" };
+      }
+
+      existingProduct.quantityProduct -= quantityToWithdraw;
+      const updatedProduct = await existingProduct.save();
+
+      return { message: "Product stock updated successfully", product: updatedProduct };
     } catch (error: any) {
       return { error: error.message };
     }

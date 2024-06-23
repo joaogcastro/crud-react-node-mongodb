@@ -38,15 +38,28 @@ export default function CadastroProdutos() {
       const response = await axios.post('http://127.0.0.2:4000/product/create', {
         nameProduct: nameProductRef.current?.value,
         typeProduct: typeProductRef.current?.value,
-        quantityProduct: quantityProductRef.current?.value,
-        priceProduct: priceProductRef.current?.value,
+        quantityProduct: Number(quantityProductRef.current?.value),
+        priceProduct: Number(priceProductRef.current?.value),
       });
-      console.log('Produto criado:', response.data);
+      console.log('Produto criado ou atualizado:', response.data);
 
-      // Atualizar o estado com o novo produto
-      setProducts((prevProducts) => [...prevProducts, response.data.product]);
+      // Atualizar o estado com o produto atualizado
+      const updatedProduct = response.data.product;
+      setProducts((prevProducts) => {
+        const existingProductIndex = prevProducts.findIndex(
+          (product) => product._id === updatedProduct._id
+        );
+
+        if (existingProductIndex >= 0) {
+          const newProducts = [...prevProducts];
+          newProducts[existingProductIndex] = updatedProduct;
+          return newProducts;
+        } else {
+          return [...prevProducts, updatedProduct];
+        }
+      });
     } catch (error) {
-      console.error('Erro ao criar produto:', error);
+      console.error('Erro ao criar ou atualizar produto:', error);
     }
 
     // Limpar os campos do formulário
