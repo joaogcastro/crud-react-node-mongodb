@@ -1,4 +1,4 @@
-"use client"; // Adicione esta linha no início do arquivo
+"use client"; 
 
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
@@ -186,6 +186,12 @@ const Stock: React.FC = () => {
                     <WithdrawProduct productId={withdrawingProductId} method="-" onClose={handleCloseModal} onUpdate={fetchProducts} />
                 </div>
             )}
+
+            {/* Modal de Adição */}
+            {addingProductId && (
+                <div className="modal-content">
+                    <button className="close-button" onClick={handleCloseModal}>Fechar</button>
+                    <WithdrawProduct productId={addingProductId} method="+" onClose={handleCloseModal} onUpdate={fetchProducts} />
                 </div>
             )}
         </div>
