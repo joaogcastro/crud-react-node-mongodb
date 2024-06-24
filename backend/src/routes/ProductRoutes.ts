@@ -96,29 +96,18 @@ productRoutes.put("/update/", async (req: Request, res: Response) => {
   }
 });
 
-productRoutes.put("/withdraw/", async (req: Request, res: Response) => {
+productRoutes.put("/updateQuantity/", async (req: Request, res: Response) => {
   try {
-    const { productId, quantityToWithdraw } = req.body;
+    const response = await controller.updateQuantity(req.body);
 
-    const existingProduct = await ProductModel.findById(productId);
-    logger.debug(`Product before withdraw ${existingProduct}`);
-
-    if (!existingProduct) {
-      logger.error(`Product not found with ID: ${productId}`);
-      return res.status(404).json({ error: "Product not found" });
+    if (response.error){
+      logger.error("Error while updating Quantity");
+      return res.status(400).json({ error: "Error while updating Quantity" });
     }
-    if (existingProduct.quantityProduct < quantityToWithdraw) {
-      logger.error(`Insufficient stock for Product ID: ${productId}`);
-      return res.status(400).json({ error: "Insufficient stock" });
-    }
-
-    existingProduct.quantityProduct -= quantityToWithdraw;
-
-    logger.debug(`Updated Product after withdraw: ${existingProduct}`);
-    const updatedProduct = await existingProduct.save();
 
     logger.info("Product stock updated successfully");
-    return res.status(200).json({ message: "Product stock updated successfully", product: updatedProduct });
+    return res.status(200).json({ message: "Product updated successfully" });
+    
   } catch (error) {
     if (error instanceof Error) {
       logger.error(`Error: ${error.message}`);

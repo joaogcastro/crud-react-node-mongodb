@@ -1,23 +1,28 @@
-"use client"; // Adicione esta linha no início do arquivo
+"use client"; 
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const WithdrawProduct: React.FC<{ productId: string, onClose: () => void, onWithdraw: () => void }> = ({ productId, onClose, onWithdraw }) => {
-    const [quantityToWithdraw, setQuantityToWithdraw] = useState<number>(0);
+const WithdrawProduct: React.FC<{ productId: string, method: string, onClose: () => void, onUpdate: () => void }> = ({ productId, method, onClose, onUpdate }) => {
+    const [quantity, setQuantity] = useState<number>(0);
 
-    const handleWithdrawProduct = () => {
-        axios.put('http://127.0.0.2:4000/product/withdraw/', {
+    useEffect(() => {
+        setQuantity(0);
+    }, [productId, method]);
+
+    const handleUpdateProduct = () => {
+        axios.put('http://127.0.0.2:4000/product/updateQuantity/', {
             productId,
-            quantityToWithdraw
+            quantity,
+            method
         })
         .then(response => {
-            console.log('Produto retirado com sucesso:', response.data);
-            onWithdraw(); // Atualizar a lista de produtos após a retirada
-            onClose(); // Fechar o modal após a retirada
+            console.log('Produto atualizado com sucesso:', response.data);
+            onUpdate(); 
+            onClose(); 
         })
         .catch(error => {
-            console.error('Erro ao retirar produto:', error);
+            console.error(`Erro ao ${method === '+' ? 'adicionar' : 'retirar'} produto:`, error);
         });
     };
 
@@ -25,20 +30,20 @@ const WithdrawProduct: React.FC<{ productId: string, onClose: () => void, onWith
         <div className="withdraw-product-container">
             <div className="modal">
                 <div className="modal-header">
-                    <h2>Retirar Produto</h2>
+                    <h2>{method === '+' ? 'Adicionar Produto' : 'Retirar Produto'}</h2>
                     <button className="close-button" onClick={onClose}>Fechar</button>
                 </div>
                 <form className="withdraw-product-form" onSubmit={(e) => e.preventDefault()}>
                     <div className="form-group">
-                        <label>Quantidade a retirar:</label>
+                        <label>Quantidade:</label>
                         <input 
                             type="number" 
-                            value={quantityToWithdraw} 
-                            onChange={(e) => setQuantityToWithdraw(Number(e.target.value))} 
+                            value={quantity} 
+                            onChange={(e) => setQuantity(Number(e.target.value))} 
                         />
                     </div>
                     <div className="button-group">
-                        <button className="withdraw-button" onClick={handleWithdrawProduct}>Retirar Produto</button>
+                        <button className="withdraw-button" onClick={handleUpdateProduct}>{method === '+' ? 'Adicionar Produto' : 'Retirar Produto'}</button>
                     </div>
                 </form>
             </div>

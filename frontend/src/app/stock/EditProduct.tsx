@@ -1,4 +1,4 @@
-"use client"; // Adicione esta linha no início do arquivo
+"use client"; 
 
 import React, { useState } from 'react';
 import axios from 'axios';
@@ -17,7 +17,7 @@ const EditProduct: React.FC<{ productId: string, onClose: () => void, onUpdate: 
     const [xpriceProduct, setPriceProduct] = useState<string>('');
 
     const handleUpdateProduct = () => {
-        // Atualizar o produto no backend
+        
         let nameProduct = null, typeProduct = null, priceProduct = null;
         if (xnameProduct !== '') { nameProduct = xnameProduct }
         if (xtypeProduct !== '') { typeProduct = xtypeProduct }
@@ -31,8 +31,8 @@ const EditProduct: React.FC<{ productId: string, onClose: () => void, onUpdate: 
         })
             .then(response => {
                 console.log('Produto atualizado com sucesso:', response.data);
-                onUpdate(); // Atualizar a lista de produtos após a edição
-                onClose(); // Fechar o modal após a atualização
+                onUpdate(); 
+                onClose(); 
             })
             .catch(error => {
                 console.error('Erro ao atualizar produto:', error);

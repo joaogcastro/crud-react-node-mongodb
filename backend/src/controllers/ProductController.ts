@@ -1,4 +1,7 @@
 import { ProductModel } from "../models/ProductModel";
+import { Logger } from "../utils/logger";
+
+const logger = new Logger();
 
 type JsonResponse = {
   message?: string;
@@ -36,24 +39,39 @@ export default class ProductController {
     }
   }
 
-  public async withdraw(body: { productId: string; quantityToWithdraw: number }): Promise<JsonResponse> {
+  public async updateQuantity(body: {productId: string, quantity: number, method: string}): Promise<JsonResponse> {
     try {
-      const { productId, quantityToWithdraw } = body;
-      const existingProduct = await ProductModel.findById(productId);
+      const existingProduct = await ProductModel.findById(body.productId);
+      logger.debug(`Product before edit: ${existingProduct}`);
 
-      if (!existingProduct) {
-        return { error: "Product not found" };
+    if (!existingProduct) {
+      logger.error(`Product not found with ID: ${body.productId}`);
+      return { error: `Product not found with ID: ${body.productId}` };
+    }
+
+    if( body.method === "+") {
+      existingProduct.quantityProduct += body.quantity;
+
+    } else if ( body.method === "-") {
+      if (existingProduct.quantityProduct < body.quantity) {
+        logger.error(`Insufficient stock for Product ID: ${body.productId}`);
+        return { error: `Insufficient stock for Product ID: ${body.productId}` };
       }
-      if (existingProduct.quantityProduct < quantityToWithdraw) {
-        return { error: "Insufficient stock" };
-      }
+      existingProduct.quantityProduct -= body.quantity;
 
-      existingProduct.quantityProduct -= quantityToWithdraw;
-      const updatedProduct = await existingProduct.save();
+    } else {
+      logger.error("Invalid Method for UpdateQuantity");
+      return { error: "Invalid Method for UpdateQuantity" };
+    }
 
-      return { message: "Product stock updated successfully", product: updatedProduct };
+    logger.debug(`Updated Product after UpdateQuantity: ${existingProduct}`);
+    const updatedProduct = await existingProduct.save();
+
+    return { message: "Success"};
+
     } catch (error: any) {
-      return { error: error.message };
+      logger.error(`Database Error: ${error}`)
+      return { error: `Database Error: ${error}` };
     }
   }
 
