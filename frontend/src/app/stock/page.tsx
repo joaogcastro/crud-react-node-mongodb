@@ -21,6 +21,7 @@ const Stock: React.FC = () => {
     const [filterType, setFilterType] = useState<string>('name');
     const [editingProductId, setEditingProductId] = useState<string | null>(null);
     const [withdrawingProductId, setWithdrawingProductId] = useState<string | null>(null);
+    const [addingProductId, setAddingProductId] = useState<string | null>(null); // Estado para adicionar produtos
     const { selectedProductId, setSelectedProductId, lowStockProducts, setLowStockProducts } = useStore();
     const router = useRouter();
 
@@ -48,6 +49,10 @@ const Stock: React.FC = () => {
         setWithdrawingProductId(productId);
     };
 
+    const handleAdd = (productId: string) => {
+        setAddingProductId(productId);
+    };
+
     const handleDelete = (productId: string) => {
         axios.delete('http://127.0.0.2:4000/product/delete', {
             data: { id: productId },
@@ -64,6 +69,7 @@ const Stock: React.FC = () => {
     const handleCloseModal = () => {
         setEditingProductId(null);
         setWithdrawingProductId(null);
+        setAddingProductId(null);
     };
 
     const handleBack = () => {
@@ -93,10 +99,6 @@ const Stock: React.FC = () => {
                 setProducts([]);
             });
     };
-
-    useEffect(() => {
-        fetchProducts();
-    }, []);
 
     const handleRowClick = (event: React.MouseEvent, productId: string) => {
         if ((event.target as HTMLElement).tagName === 'BUTTON') {
@@ -156,6 +158,7 @@ const Stock: React.FC = () => {
                                 <td className="actions-cell">
                                     <button className="edit-button" onClick={() => handleEdit(product._id)}>Editar</button>
                                     <button className="withdraw-button" onClick={() => handleWithdraw(product._id)}>Retirar Itens</button>
+                                    <button className="add-button" onClick={() => handleAdd(product._id)}>Adicionar Itens</button>
                                     <button className="delete-button" onClick={() => handleDelete(product._id)}>Excluir</button>
                                 </td>
                             </tr>
@@ -180,7 +183,9 @@ const Stock: React.FC = () => {
             {withdrawingProductId && (
                 <div className="modal-content">
                     <button className="close-button" onClick={handleCloseModal}>Fechar</button>
-                    <WithdrawProduct productId={withdrawingProductId} onClose={handleCloseModal} onWithdraw={fetchProducts} />
+                    <WithdrawProduct productId={withdrawingProductId} method="-" onClose={handleCloseModal} onUpdate={fetchProducts} />
+                </div>
+            )}
                 </div>
             )}
         </div>

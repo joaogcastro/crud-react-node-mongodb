@@ -3,7 +3,7 @@ import { useState, useRef, FormEvent } from 'react';
 import { FiTrash } from 'react-icons/fi';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
-//import './CadastroProdutos.css'; // Certifique-se de que este arquivo existe e está correto
+//import './CadastroProdutos.css'; 
 
 interface ProductProps {
   _id: string;
@@ -43,7 +43,7 @@ export default function CadastroProdutos() {
       });
       console.log('Produto criado ou atualizado:', response.data);
 
-      // Atualizar o estado com o produto atualizado
+     
       const updatedProduct = response.data.product;
       setProducts((prevProducts) => {
         const existingProductIndex = prevProducts.findIndex(
@@ -62,7 +62,7 @@ export default function CadastroProdutos() {
       console.error('Erro ao criar ou atualizar produto:', error);
     }
 
-    // Limpar os campos do formulário
+    
     if (nameProductRef.current) nameProductRef.current.value = '';
     if (typeProductRef.current) typeProductRef.current.value = '';
     if (quantityProductRef.current) quantityProductRef.current.value = '';
@@ -76,7 +76,7 @@ export default function CadastroProdutos() {
       });
       console.log('Produto deletado:', response.data);
 
-      // Atualizar o estado removendo o produto deletado
+     
       setProducts((prevProducts) => prevProducts.filter(product => product._id !== id));
     } catch (error) {
       console.error('Erro ao deletar produto:', error);
