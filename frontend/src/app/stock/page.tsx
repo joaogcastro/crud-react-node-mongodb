@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import EditProduct from './EditProduct';
 import WithdrawProduct from './WithdrawProduct'; // Importe o componente WithdrawProduct
 import { useStore } from './store'; // Importe a store do Zustand
+import './stock.css'
 
 interface Product {
     _id: string;

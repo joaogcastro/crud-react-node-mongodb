@@ -3,7 +3,7 @@ import { useState, useRef, FormEvent } from 'react';
 import { FiTrash } from 'react-icons/fi';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
-//import './CadastroProdutos.css'; 
+import './Cadastro.css'; 
 
 interface ProductProps {
   _id: string;
