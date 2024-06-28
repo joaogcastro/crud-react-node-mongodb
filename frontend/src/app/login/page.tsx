@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useRouter } from 'next/navigation'; // Corrigir importação
+import { useRouter } from 'next/navigation'; 
 //import './Login.css';
 
 const Login: React.FC = () => {
@@ -29,10 +29,10 @@ const Login: React.FC = () => {
 
       console.log('Response:', response.data);
 
-      // Verificar se a autenticação foi bem-sucedida
+      
       if (response.data.auth) {
         console.log('Login bem-sucedido');
-        router.push('/menu'); // Redirecionar para a página de Menu
+        router.push('/menu'); 
       } else {
         console.log('Login falhou:', response.data.message);
         setErrorMessage('Username or Password incorrect');

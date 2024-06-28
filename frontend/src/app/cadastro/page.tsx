@@ -3,7 +3,7 @@ import { useState, useRef, FormEvent } from 'react';
 import { FiTrash } from 'react-icons/fi';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
-//import './CadastroProdutos.css'; // Certifique-se de que este arquivo existe e está correto
+//import './CadastroProdutos.css'; 
 
 interface ProductProps {
   _id: string;
@@ -38,18 +38,31 @@ export default function CadastroProdutos() {
       const response = await axios.post('http://127.0.0.2:4000/product/create', {
         nameProduct: nameProductRef.current?.value,
         typeProduct: typeProductRef.current?.value,
-        quantityProduct: quantityProductRef.current?.value,
-        priceProduct: priceProductRef.current?.value,
+        quantityProduct: Number(quantityProductRef.current?.value),
+        priceProduct: Number(priceProductRef.current?.value),
       });
-      console.log('Produto criado:', response.data);
+      console.log('Produto criado ou atualizado:', response.data);
 
-      // Atualizar o estado com o novo produto
-      setProducts((prevProducts) => [...prevProducts, response.data.product]);
+     
+      const updatedProduct = response.data.product;
+      setProducts((prevProducts) => {
+        const existingProductIndex = prevProducts.findIndex(
+          (product) => product._id === updatedProduct._id
+        );
+
+        if (existingProductIndex >= 0) {
+          const newProducts = [...prevProducts];
+          newProducts[existingProductIndex] = updatedProduct;
+          return newProducts;
+        } else {
+          return [...prevProducts, updatedProduct];
+        }
+      });
     } catch (error) {
-      console.error('Erro ao criar produto:', error);
+      console.error('Erro ao criar ou atualizar produto:', error);
     }
 
-    // Limpar os campos do formulário
+    
     if (nameProductRef.current) nameProductRef.current.value = '';
     if (typeProductRef.current) typeProductRef.current.value = '';
     if (quantityProductRef.current) quantityProductRef.current.value = '';
@@ -63,7 +76,7 @@ export default function CadastroProdutos() {
       });
       console.log('Produto deletado:', response.data);
 
-      // Atualizar o estado removendo o produto deletado
+     
       setProducts((prevProducts) => prevProducts.filter(product => product._id !== id));
     } catch (error) {
       console.error('Erro ao deletar produto:', error);

@@ -1,8 +1,7 @@
-"use client"; // Adicione esta linha no início do arquivo
+"use client"; 
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
-//import './Stock.css';
 
 interface Product {
     _id: string;
@@ -12,34 +11,32 @@ interface Product {
     priceProduct: number;
 }
 
-const EditProduct: React.FC<{ productId: string, onClose: () => void }> = ({ productId, onClose }) => {
+const EditProduct: React.FC<{ productId: string, onClose: () => void, onUpdate: () => void }> = ({ productId, onClose, onUpdate }) => {
     const [xnameProduct, setNameProduct] = useState<string>('');
     const [xtypeProduct, setTypeProduct] = useState<string>('');
-    const [xquantityProduct, setQuantityProduct] = useState<number>(0);
     const [xpriceProduct, setPriceProduct] = useState<string>('');
 
     const handleUpdateProduct = () => {
-        // Atualizar o produto no backend
-        let nameProduct = null, typeProduct = null, quantityProduct = null, priceProduct = null;
-        if(xnameProduct != '') {nameProduct = xnameProduct}
-        if(xtypeProduct != '') {typeProduct = xtypeProduct}
-        if(xquantityProduct != 0) {quantityProduct = xquantityProduct}
-        if(xpriceProduct != '') {priceProduct = xpriceProduct}
+        
+        let nameProduct = null, typeProduct = null, priceProduct = null;
+        if (xnameProduct !== '') { nameProduct = xnameProduct }
+        if (xtypeProduct !== '') { typeProduct = xtypeProduct }
+        if (xpriceProduct !== '') { priceProduct = xpriceProduct }
 
         axios.put('http://127.0.0.2:4000/product/update/', {
             productId,
             nameProduct,
             typeProduct,
-            quantityProduct,
             priceProduct
         })
-        .then(response => {
-            console.log('Produto atualizado com sucesso:', response.data);
-            onClose(); // Fechar o modal após a atualização
-        })
-        .catch(error => {
-            console.error('Erro ao atualizar produto:', error);
-        });
+            .then(response => {
+                console.log('Produto atualizado com sucesso:', response.data);
+                onUpdate(); 
+                onClose(); 
+            })
+            .catch(error => {
+                console.error('Erro ao atualizar produto:', error);
+            });
     };
 
     return (
@@ -52,34 +49,26 @@ const EditProduct: React.FC<{ productId: string, onClose: () => void }> = ({ pro
                 <form className="edit-product-form" onSubmit={(e) => e.preventDefault()}>
                     <div className="form-group">
                         <label>Nome do Produto:</label>
-                        <input 
-                            type="text" 
-                            value={xnameProduct} 
-                            onChange={(e) => setNameProduct(e.target.value)} 
+                        <input
+                            type="text"
+                            value={xnameProduct}
+                            onChange={(e) => setNameProduct(e.target.value)}
                         />
                     </div>
                     <div className="form-group">
                         <label>Tipo do Produto:</label>
-                        <input 
-                            type="text" 
-                            value={xtypeProduct} 
-                            onChange={(e) => setTypeProduct(e.target.value)} 
+                        <input
+                            type="text"
+                            value={xtypeProduct}
+                            onChange={(e) => setTypeProduct(e.target.value)}
                         />
                     </div>
                     <div className="form-group">
-                        <label>Quantidade:</label>
-                        <input 
-                            type="number" 
-                            value={xquantityProduct} 
-                            onChange={(e) => setQuantityProduct(Number(e.target.value))} 
-                        />
-                    </div>
-                    <div className="form-group">
-                        <label>Preco:</label>
-                        <input 
-                            type="text" 
-                            value={xpriceProduct} 
-                            onChange={(e) => setPriceProduct(e.target.value)} 
+                        <label>Preço:</label>
+                        <input
+                            type="text"
+                            value={xpriceProduct}
+                            onChange={(e) => setPriceProduct(e.target.value)}
                         />
                     </div>
                     <div className="button-group">
