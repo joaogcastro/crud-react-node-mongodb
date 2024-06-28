@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { useRouter } from 'next/navigation';
-import './Menu.css';
+import styles from './Menu.module.css';  // Corrija o caminho se necessário
 
 const Menu: React.FC = () => {
   const router = useRouter();
@@ -16,11 +16,11 @@ const Menu: React.FC = () => {
   };
 
   return (
-    <div className="menu-container">
+    <div className={styles.menuContainer}>
       <h1>Bem-vindo ao Menu</h1>
       <p>Você está logado!</p>
-      <button className="menu-button" onClick={handleGoToStock}>Ir para Stock</button>
-      <button className="menu-button" onClick={handleGoToCadastrarProdutos}>Cadastrar Produtos</button>
+      <button className={styles.menuButton} onClick={handleGoToStock}>Ir para Stock</button>
+      <button className={styles.menuButton} onClick={handleGoToCadastrarProdutos}>Cadastrar Produtos</button>
     </div>
   );
 }
