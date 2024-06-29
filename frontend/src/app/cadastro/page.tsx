@@ -3,6 +3,7 @@ import { useState, useRef, FormEvent } from 'react';
 import { FiTrash } from 'react-icons/fi';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
+
 import styles from './Cadastro.module.css'; // Importe o CSS module
 
 interface ProductProps {
@@ -73,7 +74,6 @@ export default function CadastroProdutos() {
         data: { id: id },
       });
       console.log('Produto deletado:', response.data);
-
       setProducts((prevProducts) => prevProducts.filter(product => product._id !== id));
     } catch (error) {
       console.error('Erro ao deletar produto:', error);
