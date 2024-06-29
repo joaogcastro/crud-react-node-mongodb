@@ -3,7 +3,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation'; 
-//import './Login.css';
+
+import styles from './Login.module.css'; // Importe o CSS module
 
 const Login: React.FC = () => {
   const [username, setUsername] = useState('');
@@ -29,7 +30,6 @@ const Login: React.FC = () => {
 
       console.log('Response:', response.data);
 
-      
       if (response.data.auth) {
         console.log('Login bem-sucedido');
         router.push('/menu'); 
@@ -44,7 +44,7 @@ const Login: React.FC = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className={styles.loginForm}>
       <div>
         <label htmlFor="username">Username:</label>
         <input
@@ -66,7 +66,7 @@ const Login: React.FC = () => {
         />
       </div>
       <button type="submit">Login</button>
-      {errorMessage && <p className="error-message">{errorMessage}</p>}
+      {errorMessage && <p className={styles.errorMessage}>{errorMessage}</p>}
     </form>
   );
 }

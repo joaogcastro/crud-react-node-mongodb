@@ -1,0 +1,77 @@
+.stockContainer {
+    width: 100%;
+    max-width: 100%;
+    padding: 10px;
+  }
+  
+  .searchBarContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  
+  @media (max-width: 375px) {
+    .searchBarContainer {
+      flex-direction: column;
+      align-items: stretch;
+    }
+  }
+  
+  .productTable {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .productTable th, .productTable td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd; /* Linha divisória entre linhas */
+  }
+  
+  @media (max-width: 375px) {
+    .productTable th, .productTable td {
+      padding: 6px;
+      font-size: 14px;
+    }
+  }
+  
+  .actionsCell {
+    display: flex;
+    gap: 5px;
+  }
+  
+  @media (max-width: 375px) {
+    .actionsCell {
+      flex-wrap: wrap;
+    }
+  }
+  
+  /* Estilos dos botões */
+  .backButton,
+  .searchButton,
+  .editButton,
+  .withdrawButton,
+  .addButton,
+  .deleteButton,
+  .closeButton {
+    padding: 8px 12px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .backButton:hover,
+  .searchButton:hover,
+  .editButton:hover,
+  .withdrawButton:hover,
+  .addButton:hover,
+  .deleteButton:hover,
+  .closeButton:hover {
+    background-color: #0056b3;
+  }
+  
+  

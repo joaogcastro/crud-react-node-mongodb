@@ -1,0 +1,98 @@
+.cadastroContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .cadastroMain {
+    width: 100%;
+    max-width: 600px;
+  }
+  
+  .cadastroTitle {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  .cadastroForm {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+  }
+  
+  .formGroup {
+    margin-bottom: 10px;
+  }
+  
+  .formGroup label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .formGroup input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  
+  .submitButton,
+  .backButton {
+    padding: 10px 15px;
+    margin: 5px;
+    border: none;
+    border-radius: 4px;
+    background-color: #007BFF;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .submitButton:hover,
+  .backButton:hover {
+    background-color: #0056b3;
+  }
+  
+  .productsList {
+    width: 100%;
+  }
+  
+  .productCard {
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+    margin-bottom: 10px;
+    background-color: white;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .productLabel {
+    font-weight: bold;
+  }
+  
+  .deleteButton {
+    align-self: flex-end;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    background-color: red;
+    color: white;
+    cursor: pointer;
+  }
+  
+  .deleteButton:hover {
+    background-color: darkred;
+  }
+  
+  .noProducts {
+    text-align: center;
+    font-size: 18px;
+    color: #666;
+  }
+  

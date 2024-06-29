@@ -3,7 +3,8 @@ import { useState, useRef, FormEvent } from 'react';
 import { FiTrash } from 'react-icons/fi';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
-//import './CadastroProdutos.css'; 
+
+import styles from './Cadastro.module.css'; // Importe o CSS module
 
 interface ProductProps {
   _id: string;
@@ -43,7 +44,6 @@ export default function CadastroProdutos() {
       });
       console.log('Produto criado ou atualizado:', response.data);
 
-     
       const updatedProduct = response.data.product;
       setProducts((prevProducts) => {
         const existingProductIndex = prevProducts.findIndex(
@@ -62,7 +62,6 @@ export default function CadastroProdutos() {
       console.error('Erro ao criar ou atualizar produto:', error);
     }
 
-    
     if (nameProductRef.current) nameProductRef.current.value = '';
     if (typeProductRef.current) typeProductRef.current.value = '';
     if (quantityProductRef.current) quantityProductRef.current.value = '';
@@ -75,8 +74,6 @@ export default function CadastroProdutos() {
         data: { id: id },
       });
       console.log('Produto deletado:', response.data);
-
-     
       setProducts((prevProducts) => prevProducts.filter(product => product._id !== id));
     } catch (error) {
       console.error('Erro ao deletar produto:', error);
@@ -84,12 +81,12 @@ export default function CadastroProdutos() {
   }
 
   return (
-    <div className="cadastro-container">
-      <main className="cadastro-main">
-        <h1 className="cadastro-title">Produtos</h1>
+    <div className={styles.cadastroContainer}>
+      <main className={styles.cadastroMain}>
+        <h1 className={styles.cadastroTitle}>Produtos</h1>
 
-        <form className="cadastro-form" onSubmit={handleSubmit}>
-          <div className="form-group">
+        <form className={styles.cadastroForm} onSubmit={handleSubmit}>
+          <div className={styles.formGroup}>
             <label>Nome do Produto:</label>
             <input
               type="text"
@@ -98,7 +95,7 @@ export default function CadastroProdutos() {
             />
           </div>
 
-          <div className="form-group">
+          <div className={styles.formGroup}>
             <label>Tipo do Produto:</label>
             <input
               type="text"
@@ -107,7 +104,7 @@ export default function CadastroProdutos() {
             />
           </div>
 
-          <div className="form-group">
+          <div className={styles.formGroup}>
             <label>Quantidade:</label>
             <input
               type="number"
@@ -116,7 +113,7 @@ export default function CadastroProdutos() {
             />
           </div>
 
-          <div className="form-group">
+          <div className={styles.formGroup}>
             <label>Preço:</label>
             <input
               type="number"
@@ -126,37 +123,37 @@ export default function CadastroProdutos() {
             />
           </div>
 
-          <button type="submit" className="submit-button">
+          <button type="submit" className={styles.submitButton}>
             Cadastrar
           </button>
         </form>
 
         <button
-          className="back-button"
+          className={styles.backButton}
           onClick={() => router.push('/menu')}
         >
           Voltar
         </button>
 
-        <section className="products-list">
+        <section className={styles.productsList}>
           {products.length > 0 ? (
             products.map((product) => (
-              <article key={product._id} className="product-card">
+              <article key={product._id} className={styles.productCard}>
                 <p>
-                  <span className="product-label">Nome:</span> {product.nameProduct}
+                  <span className={styles.productLabel}>Nome:</span> {product.nameProduct}
                 </p>
                 <p>
-                  <span className="product-label">Tipo:</span> {product.typeProduct}
+                  <span className={styles.productLabel}>Tipo:</span> {product.typeProduct}
                 </p>
                 <p>
-                  <span className="product-label">Quantidade:</span> {product.quantityProduct}
+                  <span className={styles.productLabel}>Quantidade:</span> {product.quantityProduct}
                 </p>
                 <p>
-                  <span className="product-label">Preço:</span> {product.priceProduct}
+                  <span className={styles.productLabel}>Preço:</span> {product.priceProduct}
                 </p>
 
                 <button
-                  className="delete-button"
+                  className={styles.deleteButton}
                   onClick={() => handleDelete(product._id)}
                 >
                   <FiTrash size={18} color="white" />
@@ -164,7 +161,7 @@ export default function CadastroProdutos() {
               </article>
             ))
           ) : (
-            <p className="no-products">Nenhum produto cadastrado.</p>
+            <p className={styles.noProducts}>Nenhum produto cadastrado.</p>
           )}
         </section>
       </main>
